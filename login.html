@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Đăng nhập · HieuSubViP</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="auth-style.css">
+  <style>
+    .auth-topbar{
+      position:relative;z-index:10;width:100%;max-width:900px;margin:0 auto 12px;
+      display:flex;align-items:center;justify-content:space-between;padding:0 4px;
+      font-family:"Outfit",system-ui,sans-serif;
+    }
+    .auth-topbar a{
+      display:inline-flex;align-items:center;gap:8px;color:rgba(238,240,255,.9);
+      text-decoration:none;font-weight:600;font-size:.9rem;
+    }
+    .auth-topbar .crown{
+      width:34px;height:34px;border-radius:10px;
+      background:linear-gradient(135deg,#6b2fff,#ff2d8a);
+      display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(107,47,255,.35);
+    }
+    .auth-err{min-height:1.15em;font-size:.8rem;color:#ff6b8a;margin:2px 0 0;font-family:Outfit,system-ui,sans-serif}
+    .toast-hsv{
+      position:fixed;bottom:max(20px,env(safe-area-inset-bottom));left:50%;
+      transform:translateX(-50%) translateY(90px);background:#1a1030;
+      border:1px solid rgba(168,85,247,.45);color:#eef0ff;padding:12px 18px;
+      border-radius:12px;z-index:100;opacity:0;transition:.3s;font-family:Outfit,system-ui,sans-serif;font-size:.88rem;
+      max-width:90vw;text-align:center;
+    }
+    .toast-hsv.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    .login-success{
+      position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
+      background:rgba(4,4,14,.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+      animation:lsFadeIn .35s ease;
+    }
+    .login-success[hidden]{display:none!important}
+    .login-success-box{
+      text-align:center;padding:36px 40px;border-radius:24px;
+      background:linear-gradient(160deg,#1e1836 0%,#12101f 100%);
+      border:1px solid rgba(168,85,247,.4);
+      box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 50px rgba(168,85,247,.2);
+      min-width:280px;max-width:92vw;
+      animation:lsPop .45s cubic-bezier(.34,1.56,.64,1);
+      position:relative;overflow:hidden;
+    }
+    .login-success-box::before{
+      content:"";position:absolute;inset:-50%;
+      background:conic-gradient(from 180deg,transparent,rgba(168,85,247,.15),transparent 40%);
+      animation:lsSpin 4s linear infinite;pointer-events:none;
+    }
+    .login-success-box > *{position:relative;z-index:1}
+    .ls-icon-wrap{
+      width:72px;height:72px;margin:0 auto 16px;border-radius:50%;
+      background:linear-gradient(135deg,#a855f7,#22d3ee);
+      display:flex;align-items:center;justify-content:center;
+      box-shadow:0 8px 28px rgba(168,85,247,.45);
+      animation:lsIcon .5s ease .15s both;
+    }
+    .ls-icon-wrap .ls-icon{font-size:2rem;color:#fff;font-weight:700;line-height:1}
+    .ls-check{width:36px;height:36px;stroke:#fff;stroke-width:3;fill:none;
+      stroke-linecap:round;stroke-linejoin:round;
+      stroke-dasharray:48;stroke-dashoffset:48;animation:lsDraw .5s ease .25s forwards}
+    @keyframes lsFadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes lsPop{from{opacity:0;transform:scale(.85) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
+    @keyframes lsSpin{to{transform:rotate(360deg)}}
+    @keyframes lsIcon{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
+    @keyframes lsDraw{to{stroke-dashoffset:0}}
+    .ls-icon{
+      width:56px;height:56px;margin:0 auto 12px;border-radius:50%;
+      background:linear-gradient(135deg,#6b2fff,#ff2d8a);display:flex;align-items:center;justify-content:center;
+      font-size:1.4rem;color:#fff;
+    }
+    .login-success-box h2{font-family:Outfit,sans-serif;font-size:1.35rem;margin:0 0 8px;font-weight:700;background:linear-gradient(90deg,#e9d5ff,#c4b5fd,#a5f3fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .login-success-box p{color:rgba(190,195,230,.75);font-size:.9rem;font-family:Outfit,sans-serif;margin:0}
+    body{
+      flex-direction:column;
+      padding:16px 12px 28px;
+      padding-bottom:max(28px, env(safe-area-inset-bottom));
+    }
+  </style>
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body>
+
+  <div class="auth-topbar">
+    <a href="index.html" class="hsv-login-brand" style="gap:10px">
+      <span class="logo-badge" style="padding:0;overflow:hidden"><img src="logo-64.png" alt="HieuSubViP" width="42" height="42" style="width:100%;height:100%;object-fit:contain;display:block;border-radius:10px"></span>
+      <span class="run-text">HieuSubViP</span>
+    </a>
+    <a href="index.html" style="opacity:.65;font-weight:500;font-size:.82rem">← Trang chủ</a>
+  </div>
+
+  <div class="bg-ambient" aria-hidden="true">
+    <div class="bg-orb bg-orb--1"></div>
+    <div class="bg-orb bg-orb--2"></div>
+    <div class="bg-orb bg-orb--3"></div>
+    <div class="bg-grain"></div>
+  </div>
+
+  <main class="auth-container" id="authContainer">
+    <div class="light-sweep" id="lightSweep" aria-hidden="true"></div>
+
+    <!-- LOGIN -->
+    <section class="form-panel form-panel--login" aria-label="Đăng nhập">
+      <form class="auth-form" id="loginForm" autocomplete="on" novalidate>
+        <header class="form-header">
+          <h1 class="form-title">Đăng nhập</h1>
+          <p class="form-sub">Nhập thông tin để tiếp tục đặt hàng.</p>
+        </header>
+
+        <div class="field field--stagger" style="--i:0">
+          <label class="field-label" for="loginEmail">Email / Username</label>
+          <div class="field-wrap">
+            <svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4V6zm0 0l8 7 8-7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <input type="text" id="loginEmail" class="field-input" placeholder="Username / Email" autocomplete="username" required>
+          </div>
+        </div>
+
+        <div class="field field--stagger" style="--i:1">
+          <label class="field-label" for="loginPassword">Mật khẩu</label>
+          <div class="field-wrap">
+            <svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="5" y="11" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <input type="password" id="loginPassword" class="field-input" placeholder="Nhập mật khẩu" autocomplete="current-password" required>
+          </div>
+        </div>
+
+        <div class="form-row field--stagger" style="--i:2">
+          <label class="checkbox-label">
+            <input type="checkbox" id="rememberMe">
+            <span class="checkbox-box" aria-hidden="true"></span>
+            <span>Ghi nhớ</span>
+          </label>
+          <a href="#" class="form-link" id="forgotLink">Quên mật khẩu?</a>
+        </div>
+
+        <p class="auth-err" id="loginErr"></p>
+
+        <button type="submit" class="btn btn--primary liquid-metal field--stagger" style="--i:3">
+          <span class="btn-text">Đăng nhập</span>
+          <span class="btn-success" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><polyline points="5,13 10,18 19,7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </button>
+
+        <div class="social-divider field--stagger" style="--i:4"><span>hoặc</span></div>
+        <div class="social-row field--stagger" style="--i:5">
+          <button type="button" class="btn btn--social" id="btnGoogle" aria-label="Google" title="Đăng nhập Google">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 11v2.4h3.7c-.2 1.6-1.8 4.6-5.1 4.6-3.1 0-5.6-2.5-5.6-5.6S7.5 6.8 10.6 6.8c1.8 0 3 .8 3.7 1.4l2.5-2.4C15.2 4.6 13.1 3.6 10.6 3.6 5.9 3.6 2 7.5 2 12.2s3.9 8.6 8.6 8.6c5 0 8.3-3.5 8.3-8.5 0-.6-.1-1-.1-1.2H12z" fill="currentColor"/></svg>
+          </button>
+          <button type="button" class="btn btn--social" id="btnFacebook" aria-label="Facebook" title="Facebook">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8h3V5h-3c-2.2 0-4 1.8-4 4v2H7v3h3v7h3v-7h3l1-3h-4V9c0-.6.4-1 1-1z" fill="currentColor"/></svg>
+          </button>
+        </div>
+        <p class="auth-err" id="socialErr" style="text-align:center;min-height:1.2em"></p>
+      </form>
+    </section>
+
+    <!-- REGISTER -->
+    <section class="form-panel form-panel--register" aria-label="Đăng ký">
+      <form class="auth-form" id="registerForm" autocomplete="on" novalidate>
+        <header class="form-header">
+          <h1 class="form-title">Tạo tài khoản</h1>
+          <p class="form-sub">Đăng ký để đặt Like, Sub, View.</p>
+        </header>
+
+        <div class="field field--stagger" style="--i:0">
+          <label class="field-label" for="registerName">Tên hiển thị</label>
+          <div class="field-wrap">
+            <svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <input type="text" id="registerName" class="field-input" placeholder="Tên trên web" autocomplete="name" required>
+          </div>
+        </div>
+
+        <div class="field field--stagger" style="--i:1">
+          <label class="field-label" for="registerUser">Username</label>
+          <div class="field-wrap">
+            <svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-4 0-7 2-7 4v1h14v-1c0-2-3-4-7-4z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            <input type="text" id="registerUser" class="field-input" placeholder="vd: hieu_vip" autocomplete="username" required pattern="[A-Za-z0-9_]{3,24}">
+          </div>
+        </div>
+
+        <div class="field field--stagger" style="--i:2">
+          <label class="field-label" for="registerEmail">Email</label>
+          <div class="field-wrap">
+            <svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 6h16v12H4V6zm0 0l8 7 8-7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <input type="email" id="registerEmail" class="field-input" placeholder="you@example.com" autocomplete="email" required>
+          </div>
+        </div>
+
+        <div class="field field--stagger" style="--i:3">
+          <label class="field-label" for="registerPassword">Mật khẩu</label>
+          <div class="field-wrap">
+            <svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="5" y="11" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <input type="password" id="registerPassword" class="field-input" placeholder="Tối thiểu 6 ký tự" autocomplete="new-password" required minlength="6">
+          </div>
+        </div>
+
+        <div class="field field--stagger" style="--i:4">
+          <label class="field-label" for="registerConfirm">Nhập lại mật khẩu</label>
+          <div class="field-wrap">
+            <svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect x="5" y="11" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            <input type="password" id="registerConfirm" class="field-input" placeholder="••••••••" autocomplete="new-password" required minlength="6">
+          </div>
+        </div>
+
+        <div class="form-row field--stagger" style="--i:5">
+          <label class="checkbox-label">
+            <input type="checkbox" id="acceptTerms" required>
+            <span class="checkbox-box" aria-hidden="true"></span>
+            <span>Đồng ý điều khoản HieuSubViP</span>
+          </label>
+        </div>
+
+        <p class="auth-err" id="regErr"></p>
+
+        <button type="submit" class="btn btn--primary liquid-metal field--stagger" style="--i:6">
+          <span class="btn-text">Tạo tài khoản</span>
+          <span class="btn-success" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><polyline points="5,13 10,18 19,7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </button>
+      </form>
+    </section>
+
+    <aside class="overlay-panel" aria-label="Chuyển form">
+      <div class="overlay-decor" aria-hidden="true">
+        <div class="decor-orb decor-orb--1"></div>
+        <div class="decor-orb decor-orb--2"></div>
+        <div class="decor-orb decor-orb--3"></div>
+        <div class="decor-orbit">
+          <span class="decor-dot decor-dot--1"></span>
+          <span class="decor-dot decor-dot--2"></span>
+          <span class="decor-dot decor-dot--3"></span>
+        </div>
+        <div class="decor-streak decor-streak--1"></div>
+        <div class="decor-streak decor-streak--2"></div>
+        <div class="decor-grain"></div>
+      </div>
+      <div class="overlay-content overlay-content--signup">
+        <h2 class="overlay-title">Chưa có tài khoản?</h2>
+        <p class="overlay-sub">Tạo tài khoản HieuSubViP để đặt Like, Sub, View uy tín.</p>
+        <button type="button" class="btn btn--outline" id="showRegister">Đăng ký</button>
+      </div>
+      <div class="overlay-content overlay-content--signin">
+        <h2 class="overlay-title">Đã có tài khoản?</h2>
+        <p class="overlay-sub">Đăng nhập để tiếp tục đặt hàng và quản lý số dư.</p>
+        <button type="button" class="btn btn--outline" id="showLogin">Đăng nhập</button>
+      </div>
+    </aside>
+  </main>
+
+  <div class="login-success" id="login-success" hidden>
+    <div class="login-success-box">
+      <div class="ls-icon-wrap">
+        <svg class="ls-check" viewBox="0 0 24 24" aria-hidden="true"><polyline points="5 13 10 18 19 7"></polyline></svg>
+      </div>
+      <h2>Đăng nhập thành công!</h2>
+      <p id="ls-msg">Đang chuyển hướng...</p>
+      <div class="ls-bar"><span></span></div>
+    </div>
+  </div>
+  <style>
+  .ls-bar{margin-top:18px;height:3px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+  .ls-bar span{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#a855f7,#22d3ee);animation:lsBar 1s ease forwards}
+  @keyframes lsBar{to{width:100%}}
+  </style>
+  <div class="toast-hsv" id="toast"></div>
+
+  <script>
+  (function () {
+    "use strict";
+    const authContainer = document.getElementById("authContainer");
+    const showRegister = document.getElementById("showRegister");
+    const showLogin = document.getElementById("showLogin");
+    const lightSweep = document.getElementById("lightSweep");
+    const loginForm = document.getElementById("loginForm");
+    const registerForm = document.getElementById("registerForm");
+    if (!authContainer || !showRegister || !showLogin) return;
+
+    const SWITCH_DURATION = 800;
+    let isAnimating = false;
+
+    function triggerSweep() {
+      if (!lightSweep || window.matchMedia("(max-width:760px)").matches) return;
+      lightSweep.classList.remove("is-active");
+      void lightSweep.offsetWidth;
+      lightSweep.classList.add("is-active");
+    }
+    function switchToRegister() {
+      if (isAnimating || authContainer.classList.contains("active")) return;
+      isAnimating = true;
+      triggerSweep();
+      authContainer.classList.add("active");
+      setTimeout(function () { isAnimating = false; }, SWITCH_DURATION);
+      // scroll form into view on mobile
+      setTimeout(function () {
+        var f = document.getElementById("registerForm");
+        if (f && window.matchMedia("(max-width:760px)").matches) f.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
+    function switchToLogin() {
+      if (isAnimating || !authContainer.classList.contains("active")) return;
+      isAnimating = true;
+      triggerSweep();
+      authContainer.classList.remove("active");
+      setTimeout(function () { isAnimating = false; }, SWITCH_DURATION);
+      setTimeout(function () {
+        var f = document.getElementById("loginForm");
+        if (f && window.matchMedia("(max-width:760px)").matches) f.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
+    showRegister.addEventListener("click", switchToRegister);
+    showLogin.addEventListener("click", switchToLogin);
+    if (location.hash === "#register") switchToRegister();
+
+    function toast(msg) {
+      var t = document.getElementById("toast");
+      t.textContent = msg;
+      t.classList.add("show");
+      setTimeout(function () { t.classList.remove("show"); }, 2200);
+    }
+    function showBtnOk(form) {
+      var btn = form.querySelector(".btn--primary");
+      if (!btn || btn.classList.contains("is-success")) return;
+      btn.classList.add("is-success");
+      setTimeout(function () { btn.classList.remove("is-success"); }, 1600);
+    }
+    function setUser(u) {
+      localStorage.setItem("hsv_user", JSON.stringify(u));
+      // Chỉ khởi tạo số dư nếu CHƯA CÓ — không xoá số dư cũ
+      if (localStorage.getItem("hsv_balance") === null) localStorage.setItem("hsv_balance", "0");
+      // Merge profile, giữ avatar đã lưu
+      try {
+        var oldP = JSON.parse(localStorage.getItem("hsv_profile") || "{}");
+        var p = {
+          name: u.name || oldP.name || "",
+          username: u.username || oldP.username || "",
+          email: u.email || oldP.email || "",
+          phone: oldP.phone || "",
+          avatar: oldP.avatar || "",
+          twoFA: oldP.twoFA || false
+        };
+        // Không ghi đè avatar nếu đã có
+        localStorage.setItem("hsv_profile", JSON.stringify(p));
+      } catch (ex) {}
+    }
+    function doLogin(user) {
+      setUser(user);
+      showBtnOk(loginForm);
+      var box = document.getElementById("login-success");
+      var msg = document.getElementById("ls-msg");
+      if (box) {
+        box.hidden = false;
+        if (msg) msg.textContent = "Xin chào " + (user.name || user.username) + " — đang chuyển...";
+      } else toast("Đăng nhập thành công!");
+      setTimeout(function () {
+        location.href = user.role === "admin" ? "admin.html" : "dashboard.html";
+      }, 900);
+    }
+
+    loginForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var err = document.getElementById("loginErr");
+      err.textContent = "";
+      var id = document.getElementById("loginEmail").value.trim();
+      var pass = document.getElementById("loginPassword").value;
+      var idL = id.toLowerCase();
+
+      if ((idL === "hieusubvip@admin.com" || idL === "admin") && pass === "Hieu9999@") {
+        doLogin({ name: "Admin Hieu", username: "admin", email: "HieuSubViP@Admin.com", role: "admin" });
+        return;
+      }
+      var users = [];
+      try { users = JSON.parse(localStorage.getItem("hsv_users") || "[]"); } catch (ex) {}
+      var found = users.find(function (u) {
+        return (u.username && u.username.toLowerCase() === idL) || (u.email && u.email.toLowerCase() === idL);
+      });
+      if (found) {
+        if (found.status === "banned") { err.textContent = "Tài khoản đã bị cấm!"; return; }
+        if (found.pass && found.pass !== pass) { err.textContent = "Sai mật khẩu"; return; }
+        doLogin({ name: found.name || found.username, username: found.username, email: found.email, role: found.role || "user" });
+        return;
+      }
+      if (pass.length >= 4) {
+        var un = id.indexOf("@") >= 0 ? id.split("@")[0] : id;
+        doLogin({ name: un, username: un, email: id.indexOf("@") >= 0 ? id : "", role: "user" });
+        return;
+      }
+      err.textContent = "Sai thông tin đăng nhập";
+    });
+
+    registerForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var err = document.getElementById("regErr");
+      err.textContent = "";
+      var name = document.getElementById("registerName").value.trim();
+      var username = document.getElementById("registerUser").value.trim();
+      var email = document.getElementById("registerEmail").value.trim();
+      var pass = document.getElementById("registerPassword").value;
+      var pass2 = document.getElementById("registerConfirm").value;
+      if (!document.getElementById("acceptTerms").checked) {
+        err.textContent = "Vui lòng đồng ý điều khoản"; return;
+      }
+      if (!/^[A-Za-z0-9_]{3,24}$/.test(username)) {
+        err.textContent = "Username chỉ chữ, số, _ (3-24)"; return;
+      }
+      if (pass !== pass2) { err.textContent = "Mật khẩu không khớp"; return; }
+      if (pass.length < 6) { err.textContent = "Mật khẩu tối thiểu 6 ký tự"; return; }
+      var users = [];
+      try { users = JSON.parse(localStorage.getItem("hsv_users") || "[]"); } catch (ex) {}
+      if (users.some(function (u) {
+        return (u.username && u.username.toLowerCase() === username.toLowerCase()) ||
+               (u.email && u.email.toLowerCase() === email.toLowerCase());
+      })) {
+        err.textContent = "Username hoặc Email đã tồn tại"; return;
+      }
+      users.push({
+        id: "u" + Date.now().toString(36),
+        username: username, name: name, email: email, pass: pass,
+        role: "user", balance: 0, status: "active"
+      });
+      localStorage.setItem("hsv_users", JSON.stringify(users));
+      setUser({ name: name, username: username, email: email, role: "user" });
+      localStorage.setItem("hsv_balance", "0");
+      localStorage.setItem("hsv_profile", JSON.stringify({ name: name, username: username, email: email, phone: "" }));
+      showBtnOk(registerForm);
+      toast("Đăng ký thành công!");
+      setTimeout(function () { location.href = "dashboard.html"; }, 900);
+    });
+
+    /* Google: tạo / đăng nhập bằng email Gmail thật (lưu localStorage) */
+    document.getElementById("btnGoogle").addEventListener("click", function () {
+      var email = prompt("Nhập email Google của bạn (vd: you@gmail.com):");
+      if (!email) return;
+      email = email.trim().toLowerCase();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        toast("Email không hợp lệ");
+        return;
+      }
+      var users = [];
+      try { users = JSON.parse(localStorage.getItem("hsv_users") || "[]"); } catch (ex) {}
+      var found = users.find(function (u) {
+        return (u.email && u.email.toLowerCase() === email) || (u.provider === "google" && u.email === email);
+      });
+      if (found) {
+        if (found.status === "banned") { toast("Tài khoản đã bị cấm"); return; }
+        doLogin({ name: found.name || email.split("@")[0], username: found.username || email.split("@")[0], email: email, role: found.role || "user" });
+        return;
+      }
+      var un = email.split("@")[0].replace(/[^a-z0-9_]/gi, "_").slice(0, 20) || ("gg_" + Date.now().toString(36));
+      // tránh trùng username
+      var base = un, n = 1;
+      while (users.some(function (u) { return u.username && u.username.toLowerCase() === un.toLowerCase(); })) {
+        un = base + n; n++;
+      }
+      users.push({
+        id: "u" + Date.now().toString(36),
+        username: un, name: un, email: email, pass: "",
+        role: "user", balance: 0, status: "active", provider: "google"
+      });
+      localStorage.setItem("hsv_users", JSON.stringify(users));
+      if (localStorage.getItem("hsv_balance") === null) localStorage.setItem("hsv_balance", "0");
+      try {
+        var op = JSON.parse(localStorage.getItem("hsv_profile") || "{}");
+        if (!op.avatar) {
+          localStorage.setItem("hsv_profile", JSON.stringify({ name: un, username: un, email: email, phone: "", avatar: "", twoFA: false }));
+        }
+      } catch (ex) {
+        localStorage.setItem("hsv_profile", JSON.stringify({ name: un, username: un, email: email, phone: "", avatar: "", twoFA: false }));
+      }
+      doLogin({ name: un, username: un, email: email, role: "user" });
+    });
+    /* Facebook: đang bảo trì */
+    document.getElementById("btnFacebook").addEventListener("click", function () {
+      var se = document.getElementById("socialErr");
+      if (se) se.textContent = "Hiện tại đăng nhập Facebook đang bảo trì. Vui lòng dùng Email hoặc Google.";
+      toast("Facebook đang bảo trì — dùng Email / Google");
+    });
+    document.getElementById("forgotLink").addEventListener("click", function (e) {
+      e.preventDefault();
+      toast("Liên hệ Zalo / Telegram để lấy lại mật khẩu");
+    });
+  })();
+  </script>
+</body>
+</html>

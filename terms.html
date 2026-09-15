@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HieuSubViP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+<style>
+.terms-wrap{max-width:720px;margin:0 auto;padding:90px 18px 50px}
+.terms-card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:28px 22px;line-height:1.65;font-size:.9rem;color:var(--m)}
+.terms-card h1{color:var(--t);font-size:1.35rem;text-align:center;margin-bottom:8px}
+.terms-card .lead{text-align:center;margin-bottom:22px;color:var(--d);font-size:.88rem}
+.terms-card h2{color:var(--t);font-size:.95rem;margin:18px 0 8px;font-weight:700}
+.terms-card ul{padding-left:18px;margin-bottom:8px}
+.terms-card li{margin-bottom:6px}
+.terms-card .warn{color:#f87171}
+.terms-card .note{color:var(--o);margin-top:16px}
+.status-list span{display:inline-block;padding:2px 8px;border-radius:6px;font-size:.75rem;font-weight:700;margin-right:4px}
+.st-ok{background:rgba(52,211,153,.2);color:#34d399}
+.st-run{background:rgba(59,130,246,.2);color:#60a5fa}
+.st-wait{background:rgba(251,191,36,.2);color:#fbbf24}
+.st-err{background:rgba(239,68,68,.2);color:#f87171}
+body.theme-light .terms-card{background:#fff;color:#334155}
+body.theme-light .terms-card h1,body.theme-light .terms-card h2{color:#0f172a}
+</style>
+
+<meta name="apple-mobile-web-app-title" content="HieuSubViP">
+    <meta name="application-name" content="HieuSubViP">
+    <meta name="theme-color" content="#0a0e28">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body>
+<nav class="navbar scrolled" style="position:fixed">
+  <div class="container nav-container">
+    <a href="index.html" class="logo"><span class="logo-icon"><img src="logo-64.png" alt="HieuSubViP" width="40" height="40"></span><span class="logo-run">HieuSubViP</span></a>
+    <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
+  </div>
+</nav>
+<div class="terms-wrap">
+  <div class="terms-card">
+    <h1>Điều khoản sử dụng HieuSubViP</h1>
+    <p class="lead">Khi bạn sử dụng website HieuSubViP có nghĩa là bạn đồng ý với các điều khoản dưới đây!</p>
+
+    <h2>QUY ĐỊNH VỀ TIỀN TRÊN WEBSITE</h2>
+    <ul>
+      <li>Giá trị quy đổi tương đương tiền tệ VND, tỉ giá giao động theo thị trường.</li>
+      <li>Hình thức nạp tiền vào website là hoàn toàn tự nguyện, dùng để sử dụng các dịch vụ được cung cấp trên website.</li>
+      <li>Khi nạp tiền vào website người dùng sẽ nhận được số tiền tương ứng (có thể thêm khuyến mãi từ admin) sau khi <strong>admin duyệt</strong>, và số tiền này không thể quy đổi ngược lại.</li>
+    </ul>
+
+    <h2>QUY ĐỊNH ĐƠN HÀNG</h2>
+    <ul>
+      <li>Nên chạy test số lượng nhỏ để chọn dịch vụ phù hợp.</li>
+      <li>Bắt buộc đọc kỹ thông tin máy chủ (chọn server sẽ hiện).</li>
+      <li>Yêu cầu cài dịch vụ đúng thông tin máy chủ yêu cầu.</li>
+      <li>Phần tốc độ chỉ để tham khảo, KHÔNG chính xác 100%.</li>
+      <li>Mỗi dịch vụ có các quy định khác nhau, xem chi tiết tại thông tin máy chủ trước khi sử dụng.</li>
+      <li>Các dịch vụ có quy định và cách thức hoạt động có thể thay đổi theo thời gian.</li>
+      <li>Các đơn hàng báo lỗi, báo huỷ liên hệ admin để được kiểm tra và xử lý.</li>
+    </ul>
+
+    <h2>QUY ĐỊNH CHẤT LƯỢNG DỊCH VỤ</h2>
+    <ul>
+      <li>Website nghiên cứu hướng cung cấp dịch vụ giá tốt, có thể có loại Không Bảo Hành hoặc Có Bảo Hành.</li>
+      <li>Không Bảo Hành: có rủi ro đơn không chạy hoặc không đạt đủ — không hỗ trợ hoàn.</li>
+      <li>Có Bảo Hành: được bảo hành trong số ngày ghi trên thông tin máy chủ.</li>
+      <li>Chỉ hỗ trợ bảo hành đối với các đơn hàng hoàn thành.</li>
+      <li>Không chuyển tài khoản sang chế độ riêng tư / đổi trạng thái công khai khi đang bảo hành.</li>
+      <li>Mọi quyết định cuối cùng do admin quyết định.</li>
+    </ul>
+
+    <h2>ĐỐI VỚI BÊN KHÁCH HÀNG</h2>
+    <ul>
+      <li>Không sử dụng nội dung vi phạm pháp luật, chính trị, đồi trụy… Nếu vi phạm sẽ bị khoá tài khoản, trừ hết tiền và chịu trách nhiệm trước pháp luật.</li>
+      <li>Có thể báo cáo dịch vụ không đạt hiệu quả mong muốn tại mục hỗ trợ.</li>
+      <li>Mọi vấn đề liên quan website vui lòng trao đổi bình tĩnh, lịch sự, văn minh.</li>
+    </ul>
+
+    <h2>ĐỐI VỚI BÊN ADMIN</h2>
+    <ul>
+      <li>Có trách nhiệm hoàn thành các nội dung dịch vụ được yêu cầu.</li>
+      <li>Tiếp nhận xử lý các lỗi do người dùng báo cáo.</li>
+      <li>Từ chối hỗ trợ các ID có nội dung dịch vụ vi phạm hoặc không thực hiện theo hướng dẫn.</li>
+    </ul>
+
+    <h2>QUY ĐỊNH VỀ YÊU CẦU HỖ TRỢ ĐƠN</h2>
+    <ul>
+      <li>Khi yêu cầu hỗ trợ vui lòng nhấn thẳng vào vấn đề.</li>
+      <li>Gửi mã đơn hàng (gửi riêng, không gửi cùng dòng khó copy).</li>
+      <li>Nhấn trực tiếp vấn đề bạn đang gặp để admin hỗ trợ tốt nhất.</li>
+    </ul>
+
+    <h2>QUY ĐỊNH, CHÍNH SÁCH BẢO MẬT</h2>
+    <ul>
+      <li>Chúng tôi thu thập thông tin người dùng như: số điện thoại, email, IP, các ID và nội dung dịch vụ…</li>
+      <li>Mọi thông tin người dùng sẽ được bảo mật.</li>
+    </ul>
+
+    <h2 class="warn">CÁC TRẠNG THÁI DỊCH VỤ</h2>
+    <ul class="status-list">
+      <li><span class="st-ok">Hoàn thành</span> : Hoàn thành đơn hàng.</li>
+      <li><span class="st-run">Đang chạy</span> : Đơn hàng trong tiến trình chạy, vui lòng chờ.</li>
+      <li><span class="st-wait">Chờ xử lý</span> : Đơn hàng đang chờ lên đơn.</li>
+      <li><span class="st-err">Đã hủy</span> : Có lỗi trong tiến trình, liên hệ admin kiểm tra.</li>
+      <li><span class="st-ok">Đã hoàn tiền</span> : Đơn đã được xác nhận lỗi và hoàn tiền.</li>
+    </ul>
+
+    <p class="note">Lưu ý: Điều khoản này sẽ được thay đổi và cập nhật thường xuyên.</p>
+    <p style="text-align:center;margin-top:20px;color:var(--d);font-size:.82rem">HieuSubViP chân thành cảm ơn đã sử dụng dịch vụ.</p>
+  </div>
+</div>
+<script>
+  if (localStorage.getItem('hsv_theme') === 'light') document.body.classList.add('theme-light');
+</script>
+</body>
+</html>

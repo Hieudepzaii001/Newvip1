@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>HieuSubViP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+
+<meta name="apple-mobile-web-app-title" content="HieuSubViP">
+    <meta name="application-name" content="HieuSubViP">
+    <meta name="theme-color" content="#0a0e28">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body>
+<div class="dash-app">
+    <aside class="dash-side" id="dash-side">
+        <a href="index.html" class="dash-brand">
+            <span class="logo-icon"><img src="logo-64.png" alt="HieuSubViP" width="40" height="40"></span>
+            <span class="logo-run">HieuSubViP</span>
+        </a>
+
+        <div class="side-section-label">Menu</div>
+        <nav class="dash-nav">
+            <button type="button" class="dash-nav-item active" data-view="home"><i class="fas fa-home"></i> Tổng quan</button>
+            <button type="button" class="dash-nav-item" data-view="history"><i class="fas fa-history"></i> Lịch sử đơn</button>
+            <button type="button" class="dash-nav-item" data-view="deposit"><i class="fas fa-wallet"></i> Nạp tiền</button>
+            <button type="button" class="dash-nav-item" data-view="profile"><i class="fas fa-user-cog"></i> Hồ sơ</button>
+            <button type="button" class="dash-nav-item" data-view="rank"><i class="fas fa-medal"></i> Cấp bậc</button>
+            <button type="button" class="dash-nav-item" data-view="invite"><i class="fas fa-user-friends"></i> Mời bạn bè</button>
+            <button type="button" class="dash-nav-item" data-view="support"><i class="fas fa-headset"></i> Hỗ trợ</button>
+        </nav>
+
+        <div class="side-section-label">Danh sách dịch vụ</div>
+        <div class="svc-menu" id="svc-menu">
+            <div class="svc-group" data-plat="facebook">
+                <button type="button" class="svc-parent" data-plat="facebook"><i class="fab fa-facebook-f" style="color:#1877f2"></i> Dịch vụ Facebook <i class="fas fa-chevron-down chev"></i></button>
+                <div class="svc-sub" id="sub-facebook">
+                    <button type="button" data-plat="facebook" data-cat="follow">Tăng Sub / Theo Dõi</button>
+                    <button type="button" data-plat="facebook" data-cat="page">Tăng Like Page</button>
+                    <button type="button" data-plat="facebook" data-cat="reaction">Like Cảm Xúc (bài viết)</button>
+                    <button type="button" data-plat="facebook" data-cat="comment">Tăng Bình Luận</button>
+                    <button type="button" data-plat="facebook" data-cat="member">Thành Viên Nhóm</button>
+                    <button type="button" data-plat="facebook" data-cat="share">Tăng Chia Sẻ</button>
+                    <button type="button" data-plat="facebook" data-cat="live">Tăng Mắt Live</button>
+                    <button type="button" data-plat="facebook" data-cat="story">Tăng View Story</button>
+                    <button type="button" data-plat="facebook" data-cat="reel">View Video/Reel</button>
+                    <button type="button" data-plat="facebook" data-cat="review">Review Page</button>
+                </div>
+            </div>
+            <div class="svc-group" data-plat="tiktok">
+                <button type="button" class="svc-parent" data-plat="tiktok"><i class="fab fa-tiktok"></i> Dịch vụ TikTok <i class="fas fa-chevron-down chev"></i></button>
+                <div class="svc-sub" id="sub-tiktok">
+                    <button type="button" data-plat="tiktok" data-cat="follow">Tăng Follow / Sub</button>
+                    <button type="button" data-plat="tiktok" data-cat="like">Tăng Like</button>
+                    <button type="button" data-plat="tiktok" data-cat="view">Tăng View</button>
+                    <button type="button" data-plat="tiktok" data-cat="share">Tăng Share / Save</button>
+                </div>
+            </div>
+            <div class="svc-group" data-plat="instagram">
+                <button type="button" class="svc-parent" data-plat="instagram"><i class="fab fa-instagram" style="color:#e1306c"></i> Dịch vụ Instagram <i class="fas fa-chevron-down chev"></i></button>
+                <div class="svc-sub" id="sub-instagram">
+                    <button type="button" data-plat="instagram" data-cat="follow">Tăng Follow</button>
+                    <button type="button" data-plat="instagram" data-cat="like">Tăng Like</button>
+                    <button type="button" data-plat="instagram" data-cat="view">Views Reels</button>
+                </div>
+            </div>
+            <div class="svc-group" data-plat="youtube">
+                <button type="button" class="svc-parent" data-plat="youtube"><i class="fab fa-youtube" style="color:#ff0000"></i> Dịch vụ YouTube <i class="fas fa-chevron-down chev"></i></button>
+                <div class="svc-sub" id="sub-youtube">
+                    <button type="button" data-plat="youtube" data-cat="sub">Tăng Sub</button>
+                    <button type="button" data-plat="youtube" data-cat="view">Tăng View</button>
+                    <button type="button" data-plat="youtube" data-cat="like">Tăng Like</button>
+                </div>
+            </div>
+            <div class="svc-group" data-plat="telegram">
+                <button type="button" class="svc-parent" data-plat="telegram"><i class="fab fa-telegram" style="color:#2AABEE"></i> Dịch vụ Telegram <i class="fas fa-chevron-down chev"></i></button>
+                <div class="svc-sub" id="sub-telegram">
+                    <button type="button" data-plat="telegram" data-cat="member">Members</button>
+                    <button type="button" data-plat="telegram" data-cat="view">Post Views</button>
+                </div>
+            </div>
+            <div class="svc-group" data-plat="spotify">
+                <button type="button" class="svc-parent" data-plat="spotify"><i class="fab fa-spotify" style="color:#1DB954"></i> Dịch vụ Spotify <i class="fas fa-chevron-down chev"></i></button>
+                <div class="svc-sub" id="sub-spotify">
+                    <button type="button" data-plat="spotify" data-cat="follow">Followers</button>
+                    <button type="button" data-plat="spotify" data-cat="play">Plays</button>
+                </div>
+            </div>
+            <div class="svc-group" data-plat="x">
+                <button type="button" class="svc-parent" data-plat="x"><i class="fab fa-x-twitter"></i> Dịch vụ X – Twitter <i class="fas fa-chevron-down chev"></i></button>
+                <div class="svc-sub" id="sub-x">
+                    <button type="button" data-plat="x" data-cat="follow">Followers</button>
+                    <button type="button" data-plat="x" data-cat="like">Likes</button>
+                </div>
+            </div>
+            <div class="svc-group" data-plat="threads">
+                <button type="button" class="svc-parent" data-plat="threads"><i class="fas fa-at"></i> Dịch vụ Threads <i class="fas fa-chevron-down chev"></i></button>
+                <div class="svc-sub" id="sub-threads">
+                    <button type="button" data-plat="threads" data-cat="follow">Followers</button>
+                    <button type="button" data-plat="threads" data-cat="like">Likes</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="dash-side-foot">
+            <a href="terms.html" class="dash-nav-item"><i class="fas fa-file-alt"></i> Điều khoản</a>
+            <a href="index.html" class="dash-nav-item"><i class="fas fa-globe"></i> Trang chủ web</a>
+            <button type="button" class="dash-nav-item" id="dash-logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</button>
+        </div>
+    </aside>
+
+    <div class="dash-main">
+        <header class="dash-top">
+            <button type="button" class="dash-menu-btn" id="dash-menu"><i class="fas fa-bars"></i></button>
+            <div class="dash-top-title">
+                <h1 id="view-title">Tổng quan</h1>
+                <p id="view-sub">Xin chào, <span id="hello-name">User</span></p>
+            </div>
+            <button type="button" class="theme-toggle" id="theme-toggle" title="Đổi giao diện"><i class="fas fa-moon"></i> <span>Tối</span></button>
+            <div class="dash-balance-chip"><i class="fas fa-coins"></i> <span id="bal-display">0đ</span></div>
+        </header>
+
+        <!-- HOME -->
+        <section class="dash-view active" id="view-home">
+            <div class="home-hello">
+                <h2>Xin chào <span id="hello-name-big">User</span> <i class="fas fa-check-circle" style="color:#3b82f6;font-size:.9rem"></i></h2>
+                <p>Chào mừng đến với HieuSubViP</p>
+            </div>
+
+            <div class="info-cards">
+                <div class="info-card">
+                    <div class="ic-icon bal"><i class="fas fa-wallet"></i></div>
+                    <div><b id="home-bal">0đ</b><span>Số dư</span></div>
+                </div>
+                <div class="info-card">
+                    <div class="ic-icon rank"><i class="fas fa-chart-line"></i></div>
+                    <div><b id="home-rank">Thành viên</b><span>Cấp bậc</span></div>
+                </div>
+                <div class="info-card">
+                    <div class="ic-icon in"><i class="fas fa-database"></i></div>
+                    <div><b id="home-in">0đ</b><span>Tổng nạp</span></div>
+                </div>
+                <div class="info-card">
+                    <div class="ic-icon out"><i class="fas fa-coins"></i></div>
+                    <div><b id="home-out">0đ</b><span>Tổng tiêu</span></div>
+                </div>
+            </div>
+
+            <div class="panel support-panel">
+                <div class="panel-head"><h2>Thông tin hỗ trợ</h2></div>
+                <div class="support-icons">
+                    <a href="https://zalo.me/0964836058" target="_blank" class="sup-item"><span class="sup-ico zalo"><i class="fas fa-comment-dots"></i></span>Zalo</a>
+                    <a href="https://t.me/HjeuDepZaii63" target="_blank" class="sup-item"><span class="sup-ico tg"><i class="fab fa-telegram-plane"></i></span>Telegram</a>
+                    <a href="terms.html" class="sup-item"><span class="sup-ico terms"><i class="fas fa-file-alt"></i></span>Điều khoản</a>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-head"><h2><i class="fas fa-trophy" style="color:#fbbf24"></i> Bảng vinh danh Top nạp</h2></div>
+                <div class="top-list" id="top-deposit-list"></div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-head"><h2>Đặt nhanh</h2></div>
+                <div class="plat-quick" id="home-plats"></div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-head"><h2>Đơn gần đây</h2><button type="button" class="link-btn" data-view="history">Xem tất cả</button></div>
+                <div class="table-wrap"><table class="dash-table" id="recent-table"><thead><tr><th>Mã</th><th>Dịch vụ</th><th>SL</th><th>Trạng thái</th></tr></thead><tbody></tbody></table></div>
+            </div>
+        </section>
+
+        <!-- ORDER (SMM style) -->
+        <section class="dash-view" id="view-order">
+            <div class="breadcrumb" id="order-crumb">HieuSubViP &gt; Đặt hàng</div>
+            <div class="order-page">
+                <div class="panel order-main">
+                    <h2 class="order-h" id="order-heading"><i class="fab fa-facebook-f"></i> Facebook · Đặt dịch vụ</h2>
+
+                    <div class="form-group">
+                        <label>Liên kết / ID cần tăng</label>
+                        <input type="text" id="order-link" placeholder="Nhập link hoặc ID tuỳ máy chủ" required>
+                        <p class="field-warn">Lưu ý: đọc kỹ thông tin máy chủ trước khi đặt đơn.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Máy chủ / Gói dịch vụ</label>
+                        <div class="server-list" id="server-list"></div>
+                    </div>
+
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label>Số lượng (Min ~ Max)</label>
+                            <input type="number" id="order-qty" min="50" value="1000" placeholder="Nhập số lượng">
+                            <p class="field-hint" id="qty-hint">Tối thiểu 50</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Mã giảm giá (nếu có)</label>
+                            <input type="text" id="order-coupon" placeholder="Nhập mã giảm giá">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ghi chú</label>
+                        <textarea id="order-note" rows="3" placeholder="Nhập ghi chú nếu cần"></textarea>
+                    </div>
+
+                    <div class="total-bar" id="total-bar">Tổng thanh toán: <strong id="total-price">0đ</strong></div>
+                    <button type="button" class="btn btn-primary btn-full" id="btn-create-order"><i class="fas fa-shopping-cart"></i> Tạo đơn hàng</button>
+                </div>
+
+                <div class="order-notes">
+                    <div class="note-box note-red">
+                        <h3>Lưu ý</h3>
+                        <ul>
+                            <li>Nghiêm cấm buff nội dung vi phạm pháp luật, chính trị, đồi trụy… Nếu cố tình sẽ bị trừ hết tiền và ban vĩnh viễn.</li>
+                            <li>Nếu đơn đang chạy mà vẫn mua ở hệ thống khác gây lệch số lượng, sẽ không được xử lý.</li>
+                            <li>Vui lòng đọc kỹ thông tin máy chủ trước khi lên đơn.</li>
+                            <li>Đơn có vấn đề vui lòng liên hệ admin để được hỗ trợ nhanh.</li>
+                        </ul>
+                    </div>
+                    <div class="note-box note-blue">
+                        <h3>Các trường hợp huỷ đơn / không chạy</h3>
+                        <ul>
+                            <li>Đơn không đúng yêu cầu máy chủ, sai định dạng link.</li>
+                            <li>Cố tình đè đơn với máy chủ không cho phép.</li>
+                            <li>Thay đổi cấu trúc link khi đơn đang chạy.</li>
+                            <li>Tài khoản die hoặc không bật công khai.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HISTORY -->
+        <section class="dash-view" id="view-history">
+            <div class="panel">
+                <div class="panel-head">
+                    <h2>Lịch sử đơn hàng</h2>
+                    <select id="hist-filter" class="mini-select">
+                        <option value="all">Tất cả</option>
+                        <option value="pending">Chờ xử lý</option>
+                        <option value="processing">Đang chạy</option>
+                        <option value="success">Hoàn thành</option>
+                    </select>
+                </div>
+                <div class="table-wrap">
+                    <table class="dash-table" id="hist-table">
+                        <thead><tr><th>Mã</th><th>Nền tảng</th><th>Gói</th><th>SL</th><th>Tiền</th><th>TT</th><th>Ngày</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- DEPOSIT -->
+        <section class="dash-view" id="view-deposit">
+            <div class="deposit-notice deposit-notice-top">
+                <div class="deposit-notice-title"><i class="fas fa-exclamation-triangle"></i> Chú ý khi nạp tiền</div>
+                <ul>
+                    <li>Tuyệt đối <strong>KHÔNG</strong> sử dụng STK website để nhận tiền không chính chủ.</li>
+                    <li>Chỉ chuyển từ tài khoản ngân hàng cá nhân đứng tên bạn.</li>
+                    <li><strong>KHÔNG</strong> chấp nhận chuyển từ tài khoản Công ty / Doanh nghiệp.</li>
+                    <li>Nếu vi phạm sẽ bị thu hồi và không xử lý.</li>
+                    <li>Hoá đơn sẽ có hạn <strong>15 phút</strong>. Tự động xử lý 24/7.</li>
+                </ul>
+                <p class="deposit-notice-warn">⚠️ Nguồn tiền khả nghi sẽ bị xác minh bất cứ lúc nào.</p>
+            </div>
+            <div class="panel">
+                <div class="panel-head"><h2>Nạp tiền vào ví</h2></div>
+                <p class="panel-desc" style="color:var(--m);font-size:.88rem;margin-bottom:14px">Chọn cách nạp, chuyển đúng <b>Nội Dung Nạp</b> (có tên tài khoản của bạn), rồi bấm <b>Tạo lệnh nạp</b>.</p>
+                <div class="form-group">
+                    <label>Số tiền nạp (tối thiểu 10.000đ)</label>
+                    <input type="number" id="dep-amount" min="10000" step="1000" placeholder="Nhập số tiền">
+                </div>
+                <div class="quick-amt">
+                    <button type="button" class="amt" data-amt="50000">50K</button>
+                    <button type="button" class="amt" data-amt="100000">100K</button>
+                    <button type="button" class="amt" data-amt="200000">200K</button>
+                    <button type="button" class="amt" data-amt="500000">500K</button>
+                    <button type="button" class="amt" data-amt="1000000">1TR</button>
+                </div>
+                <div class="pay-methods-grid" id="pay-methods-grid" style="display:grid;gap:12px;margin:16px 0">
+                    <!-- filled by JS from hsv_pay_methods -->
+                </div>
+                <button type="button" class="btn btn-primary btn-full" id="btn-deposit"><i class="fas fa-plus-circle"></i> Tạo lệnh nạp</button>
+                <div class="qr-box" id="qr-box" style="display:none;margin-top:14px;text-align:center">
+                    <img id="qr-img" alt="QR nạp tiền" width="180" height="180">
+                    <p>Số tiền: <b id="qr-amount">0đ</b><br>Nội dung: <b id="qr-content">NAP HSV</b></p>
+                </div>
+            </div>
+            <div class="panel" style="margin-top:12px">
+                <div class="panel-head"><h2>Lịch sử nạp</h2></div>
+                <div class="table-wrap"><table class="dash-table"><thead><tr><th>Mã</th><th>Số tiền</th><th>Cách nạp</th><th>TT</th><th>Ngày</th></tr></thead><tbody id="dep-body"></tbody></table></div>
+            </div>
+        </section>
+
+        <!-- PROFILE -->
+        <section class="dash-view" id="view-profile">
+            <div class="profile-layout">
+                <div class="panel profile-card">
+                    <div class="avatar-wrap">
+                        <div class="avatar-big" id="profile-avatar">H</div>
+                        <label class="avatar-edit"><i class="fas fa-camera"></i><input type="file" id="avatar-input" accept="image/*" hidden></label>
+                    </div>
+                    <h3 id="profile-display-name">User</h3>
+                    <p class="profile-role">Thành viên</p>
+                    <div class="profile-meta">
+                        <span><i class="fas fa-wallet"></i> <b id="profile-bal">0đ</b></span>
+                        <span><i class="fas fa-shopping-bag"></i> <b id="profile-orders">0</b> đơn</span>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-head"><h2>Cài đặt hồ sơ</h2></div>
+                    <form id="profile-form">
+                        <div class="form-group"><label>Username</label><input type="text" id="pf-username" readonly style="opacity:.8"></div>
+                        <div class="form-group"><label>Tên hiển thị</label><input type="text" id="pf-name" required></div>
+                        <div class="form-group"><label>Email</label><input type="email" id="pf-email"></div>
+                        <div class="form-group"><label>SĐT / Zalo (tuỳ chọn)</label><input type="tel" id="pf-phone" placeholder="Thêm sau cũng được"></div>
+                        <div class="form-group"><label>Telegram</label><input type="text" id="pf-tg" placeholder="@username"></div>
+                        <div class="form-group"><label>Mật khẩu mới</label><input type="password" id="pf-pass" placeholder="Để trống nếu không đổi"></div>
+                        <div class="form-group" style="padding:14px;border-radius:12px;border:1px solid var(--bd);background:rgba(255,255,255,.02)">
+                            <label style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;cursor:pointer">
+                                <span><i class="fas fa-shield-alt" style="color:var(--p2)"></i> <b>Xác thực 2 lớp (2FA)</b><br><small style="color:var(--m);font-weight:400">Bật mã PIN khi đăng nhập để bảo mật hơn</small></span>
+                                <input type="checkbox" id="pf-2fa" style="width:20px;height:20px;accent-color:#a855f7;margin-top:4px">
+                            </label>
+                            <div id="pf-2fa-box" style="display:none;margin-top:12px">
+                                <label>Mã PIN 2FA (4–6 số)</label>
+                                <input type="password" id="pf-2fa-pin" inputmode="numeric" maxlength="6" placeholder="••••">
+                                <p class="field-hint">Lưu trên thiết bị này. Mất PIN liên hệ Admin.</p>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Lưu thay đổi</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        
+        <section class="dash-view" id="view-rank">
+            <div id="rank-box" class="rank-wrap"></div>
+        </section>
+
+        <!-- SUPPORT -->
+        <section class="dash-view" id="view-invite">
+            <div class="panel">
+                <div class="panel-head"><h2><i class="fas fa-user-friends" style="color:var(--p2)"></i> Mời bạn bè — Hoa hồng CTV</h2></div>
+                <p style="color:var(--m);font-size:.9rem;line-height:1.55;margin-bottom:14px">Giới thiệu bạn bè đăng ký &amp; nạp tiền để nhận hoa hồng theo chương trình Cộng tác viên.</p>
+                <button type="button" class="btn btn-primary" id="btn-invite-ref"><i class="fas fa-link"></i> Lấy link mời / Xem hoa hồng</button>
+                <p id="invite-note" style="display:none;margin-top:14px;padding:14px;border-radius:12px;background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.35);color:#fbbf24;font-size:.88rem;line-height:1.55">
+                    <i class="fas fa-tools"></i> <strong>Hệ thống mời bạn bè đang bảo trì</strong> — sẽ sớm hoạt động. Cảm ơn bạn đã chờ!
+                </p>
+            </div>
+        </section>
+        <section class="dash-view" id="view-support">
+            <div class="panel">
+                <div class="panel-head"><h2>Phiếu hỗ trợ / Liên hệ</h2></div>
+                <div class="contact-grid-only" style="max-width:100%">
+                    <a href="https://zalo.me/0964836058" target="_blank" class="contact-item big"><i class="fas fa-comment-dots"></i><div><strong>Zalo</strong><span>Chat hỗ trợ</span></div></a>
+                    <a href="https://t.me/HjeuDepZaii63" target="_blank" class="contact-item big"><i class="fab fa-telegram"></i><div><strong>Telegram</strong><span>@HieuSubViP</span></div></a>
+
+                </div>
+            </div>
+        </section>
+      <div class="dash-footer-copy">© 2026 <strong class="brand-bold">𝗛𝗶𝗲𝘂𝗦𝘂𝗯𝗩𝗶𝗣</strong></div>
+    </div>
+</div>
+<div class="dash-overlay" id="dash-overlay"></div>
+
+<!-- Announcement -->
+<div class="ann-modal" id="ann-modal">
+  <div class="ann-box">
+    <div class="ann-head">
+      <h3><i class="fas fa-bullhorn"></i> Thông báo mới</h3>
+      <button type="button" class="ann-close" id="ann-close"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="ann-body" id="ann-body">
+      <p><strong>Thông báo từ HieuSubViP</strong></p>
+      <ul>
+        <li>Sau khi chuyển khoản nạp tiền, vui lòng chờ <b>Admin duyệt</b> — số dư mới được cộng.</li>
+        <li>Khi đặt hàng hãy chọn đúng gói (Like / Sub / View…) và dán đúng link.</li>
+        <li>Nạp tích lũy để lên cấp Cộng tác viên / Đại lý / Nhà phân phối và nhận giảm giá.</li>
+        <li>Mọi thắc mắc liên hệ Zalo hoặc Telegram trong mục Hỗ trợ.</li>
+      </ul>
+      <p class="ann-date">Cập nhật gần nhất</p>
+    </div>
+    <label class="ann-check"><input type="checkbox" id="ann-hide"> Không hiện lại hôm nay</label>
+    <button type="button" class="btn btn-primary btn-full" id="ann-ok">Đã hiểu</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span></span></div>
+<script src="script.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>

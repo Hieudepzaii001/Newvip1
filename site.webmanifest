@@ -1,0 +1,14 @@
+{
+  "name": "HieuSubViP",
+  "short_name": "HieuSubViP",
+  "description": "Tăng Like, Sub, Follow Facebook, TikTok, Instagram, YouTube – VIP uy tín",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#07070f",
+  "theme_color": "#0a0e28",
+  "lang": "vi",
+  "icons": [
+    { "src": "logo-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "logo-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

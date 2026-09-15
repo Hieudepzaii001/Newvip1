@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>HieuSubViP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+<style>
+.admin-page{display:flex;min-height:100vh;background:var(--bg)}
+.admin-sidebar{
+  width:220px;background:var(--bg2);border-right:1px solid var(--bd);
+  position:fixed;top:0;left:0;bottom:0;z-index:90;padding:14px 10px;
+  display:flex;flex-direction:column;overflow-y:auto;transition:transform .28s ease;
+}
+.admin-sidebar .logo{display:flex;align-items:center;gap:8px;padding:6px 8px;margin-bottom:14px;font-weight:800;font-size:1rem}
+.admin-nav{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:2px}
+.admin-nav a{
+  display:flex;align-items:center;gap:9px;padding:10px 11px;border-radius:9px;
+  color:var(--m);font-size:.84rem;font-weight:500;text-decoration:none;transition:.2s;
+}
+.admin-nav a i{width:18px;text-align:center;font-size:.9rem}
+.admin-nav a:hover,.admin-nav a.active{background:rgba(168,85,247,.15);color:var(--p2)}
+.admin-main{flex:1;margin-left:220px;padding:16px 14px 40px;min-width:0}
+.admin-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.admin-header h1{font-size:1.15rem;font-weight:800}
+.admin-menu-btn{
+  display:none;width:38px;height:38px;border-radius:9px;border:1px solid var(--bd);
+  background:var(--card);color:var(--t);align-items:center;justify-content:center;cursor:pointer;
+}
+.admin-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
+@media(min-width:700px){.admin-cards{grid-template-columns:repeat(4,1fr)}}
+.admin-card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;text-align:center}
+.admin-card h3{font-size:1.25rem;font-weight:800;margin-bottom:2px}
+.admin-card span{font-size:.72rem;color:var(--d)}
+.admin-section{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:12px}
+.admin-section h2{font-size:.95rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.admin-table{width:100%;border-collapse:collapse;font-size:.8rem}
+.admin-table th,.admin-table td{padding:9px 6px;text-align:left;border-bottom:1px solid var(--bd);white-space:nowrap}
+.admin-table th{color:var(--d);font-size:.68rem;text-transform:uppercase;font-weight:600}
+.admin-table td{color:var(--m)}
+.admin-actions{display:flex;gap:4px;flex-wrap:wrap}
+.admin-actions button,.btn-mini{
+  padding:5px 9px;border-radius:6px;border:1px solid var(--bd);background:rgba(168,85,247,.12);
+  color:var(--p2);font-size:.72rem;font-weight:600;cursor:pointer;font-family:inherit;
+}
+.admin-actions button.danger,.btn-mini.danger{background:rgba(239,68,68,.12);color:#f87171;border-color:rgba(239,68,68,.25)}
+.admin-actions button.ok,.btn-mini.ok{background:rgba(52,211,153,.12);color:#34d399;border-color:rgba(52,211,153,.25)}
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.empty-row{text-align:center;color:var(--d);padding:20px;font-size:.85rem}
+.admin-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:80;opacity:0;visibility:hidden;transition:.25s}
+.admin-overlay.show{opacity:1;visibility:visible}
+.form-grid{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:600px){.form-grid{grid-template-columns:1fr 1fr}}
+.form-grid .full{grid-column:1/-1}
+.form-grid label{font-size:.75rem;color:var(--m);display:block;margin-bottom:4px}
+.form-grid input,.form-grid select,.form-grid textarea{
+  width:100%;padding:10px 12px;border-radius:9px;border:1px solid var(--bd);
+  background:rgba(255,255,255,.03);color:var(--t);font-size:.88rem;font-family:inherit;outline:none;
+}
+.form-grid input:focus,.form-grid select:focus,.form-grid textarea:focus{border-color:var(--p)}
+.modal-bg{
+  position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:100;display:none;align-items:center;justify-content:center;padding:16px;
+}
+.modal-bg.show{display:flex}
+.modal{
+  background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:20px;width:100%;max-width:420px;
+  max-height:90vh;overflow-y:auto;
+}
+.modal h3{font-size:1.05rem;margin-bottom:14px;font-weight:800}
+.modal-actions{display:flex;gap:8px;margin-top:14px;justify-content:flex-end}
+@media(max-width:768px){
+  .admin-sidebar{transform:translateX(-100%);width:min(260px,85vw)}
+  .admin-sidebar.open{transform:translateX(0)}
+  .admin-main{margin-left:0;padding:12px 10px 32px}
+  .admin-menu-btn{display:flex}
+}
+</style>
+
+<meta name="apple-mobile-web-app-title" content="HieuSubViP">
+    <meta name="application-name" content="HieuSubViP">
+    <meta name="theme-color" content="#0a0e28">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body>
+<div class="admin-page">
+  <aside class="admin-sidebar" id="admin-sidebar">
+    <a href="index.html" class="logo">
+      <span class="logo-icon"><img src="logo-64.png" alt="HieuSubViP" width="40" height="40"></span>
+      <span class="logo-run">HieuSubViP</span>
+    </a>
+    <ul class="admin-nav">
+      <li><a href="#" class="active" data-panel="overview"><i class="fas fa-chart-pie"></i> Tổng quan</a></li>
+      <li><a href="#" data-panel="orders"><i class="fas fa-shopping-bag"></i> Đơn hàng</a></li>
+      <li><a href="#" data-panel="deposits"><i class="fas fa-money-bill-wave"></i> Duyệt nạp tiền</a></li>
+      <li><a href="#" data-panel="services"><i class="fas fa-server"></i> Dịch vụ</a></li>
+      <li><a href="#" data-panel="users"><i class="fas fa-users"></i> Người dùng</a></li>
+      <li><a href="#" data-panel="announce"><i class="fas fa-bullhorn"></i> Thông báo</a></li>
+      <li><a href="#" data-panel="settings"><i class="fas fa-cog"></i> Cài đặt web</a></li>
+      <li><a href="index.html"><i class="fas fa-globe"></i> Xem website</a></li>
+      <li><a href="#" id="admin-logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
+    </ul>
+  </aside>
+  <div class="admin-overlay" id="admin-overlay"></div>
+
+  <main class="admin-main">
+    <div class="admin-header">
+      <button type="button" class="admin-menu-btn" id="admin-menu-btn"><i class="fas fa-bars"></i></button>
+      <div style="flex:1"><h1 id="admin-title">Tổng quan</h1></div>
+    </div>
+
+    <div id="panel-overview">
+      <div class="admin-cards">
+        <div class="admin-card"><h3 id="a-orders">0</h3><span>Tổng đơn</span></div>
+        <div class="admin-card"><h3 id="a-pending">0</h3><span>Chờ xử lý</span></div>
+        <div class="admin-card"><h3 id="a-deps">0</h3><span>Nạp chờ duyệt</span></div>
+        <div class="admin-card"><h3 id="a-svc">0</h3><span>Dịch vụ</span></div>
+      </div>
+      <div class="admin-section">
+        <h2>Đơn gần đây</h2>
+        <div class="table-scroll"><table class="admin-table"><thead><tr><th>Mã</th><th>Gói</th><th>SL</th><th>Tiền</th><th>TT</th><th></th></tr></thead><tbody id="a-recent-orders"></tbody></table></div>
+      </div>
+    </div>
+
+    <div id="panel-orders" style="display:none">
+      <div class="admin-section">
+        <h2>Tất cả đơn hàng</h2>
+        <div class="table-scroll"><table class="admin-table"><thead><tr><th>Mã</th><th>Nền tảng</th><th>Gói</th><th>SL</th><th>Tiền</th><th>TT</th><th>Ngày</th><th></th></tr></thead><tbody id="a-all-orders"></tbody></table></div>
+      </div>
+    </div>
+
+    <div id="panel-deposits" style="display:none">
+      <div class="admin-section">
+        <h2>Lệnh nạp tiền</h2>
+        <div class="table-scroll"><table class="admin-table"><thead><tr><th>Mã</th><th>User</th><th>Số tiền</th><th>P.thức</th><th>Ngày</th><th>TT</th><th></th></tr></thead><tbody id="a-deps-body"></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- SERVICES -->
+    <div id="panel-services" style="display:none">
+      <div class="admin-section">
+        <h2>
+          <span>Quản lý dịch vụ / máy chủ</span>
+          <button type="button" class="btn-mini ok" id="btn-add-svc"><i class="fas fa-plus"></i> Thêm dịch vụ</button>
+        </h2>
+        <div class="form-grid" style="margin-bottom:12px">
+          <div>
+            <label>Lọc nền tảng</label>
+            <select id="svc-filter">
+              <option value="all">Tất cả</option>
+              <option value="facebook">Facebook</option>
+              <option value="tiktok">TikTok</option>
+              <option value="instagram">Instagram</option>
+              <option value="youtube">YouTube</option>
+              <option value="telegram">Telegram</option>
+              <option value="spotify">Spotify</option>
+              <option value="threads">Threads</option>
+              <option value="x">X – Twitter</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-scroll">
+          <table class="admin-table">
+            <thead><tr><th>ID</th><th>Nền tảng</th><th>Nhóm</th><th>Tên gói</th><th>Giá</th><th>BH</th><th>TT</th><th></th></tr></thead>
+            <tbody id="a-svc-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- USERS -->
+    <div id="panel-users" style="display:none">
+      <div class="admin-section">
+        <h2>
+          <span>Người dùng</span>
+          <button type="button" class="btn-mini" id="btn-add-user"><i class="fas fa-user-plus"></i> Thêm user</button>
+        </h2>
+        <div class="table-scroll">
+          <table class="admin-table">
+            <thead><tr><th>Tên</th><th>Email</th><th>Role</th><th>Số dư</th><th>TT</th><th></th></tr></thead>
+            <tbody id="a-users-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    
+    <div id="panel-announce" style="display:none">
+      <div class="admin-section">
+        <h2>Chỉnh nội dung thông báo (popup khi vào Dashboard)</h2>
+        <div class="form-grid">
+          <div class="full">
+            <label>Bật thông báo</label>
+            <select id="ann-enabled"><option value="1">Bật</option><option value="0">Tắt</option></select>
+          </div>
+          <div class="full">
+            <label>Tiêu đề</label>
+            <input type="text" id="ann-title" value="Thông báo từ HieuSubViP">
+          </div>
+          <div class="full">
+            <label>Nội dung (mỗi dòng 1 ý, sẽ hiện thành danh sách)</label>
+            <textarea id="ann-lines" rows="8" style="width:100%;padding:10px 12px;border-radius:9px;border:1px solid var(--bd);background:rgba(255,255,255,.03);color:var(--t);font-size:.88rem;font-family:inherit;outline:none;resize:vertical"></textarea>
+          </div>
+          <div class="full">
+            <label>Dòng ngày / ghi chú cuối</label>
+            <input type="text" id="ann-footer" value="Cập nhật gần nhất">
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary btn-sm" id="btn-save-ann" style="margin-top:12px"><i class="fas fa-save"></i> Lưu thông báo</button>
+        <button type="button" class="btn-mini" id="btn-preview-ann" style="margin-top:12px;margin-left:8px">Xem trước HTML</button>
+        <pre id="ann-preview" style="margin-top:12px;font-size:.75rem;color:var(--d);white-space:pre-wrap;display:none"></pre>
+      </div>
+    </div>
+<div id="panel-settings" style="display:none">
+      <div class="admin-section">
+        <h2>Thông tin nhận tiền</h2>
+        <div class="form-grid">
+          <div><label>Số tài khoản</label><input type="text" id="set-stk" value="0123456789990"></div>
+          <div><label>Chủ tài khoản</label><input type="text" id="set-owner" value="TRAN BA HIEU"></div>
+          <div><label>Ngân hàng</label><input type="text" id="set-bank" value="MB Bank"></div>
+          <div><label>Mẫu nội dung</label><input type="text" id="set-content" value="NAP HSV"></div>
+        </div>
+        <p style="color:var(--m);font-size:.8rem;margin:10px 0">Nội dung user nạp: <b style="color:var(--p2)">NAP HSV + tên tài khoản</b></p>
+        <button type="button" class="btn btn-primary btn-sm" id="btn-save-bank"><i class="fas fa-save"></i> Lưu</button>
+      </div>
+
+      <div class="admin-section" id="pay-methods-admin">
+        <h2><i class="fas fa-wallet"></i> 3 cách nạp tiền</h2>
+        <p style="color:var(--m);font-size:.85rem;margin-bottom:12px">Chỉnh thông tin hiển thị cho người dùng khi nạp tiền (Bank / MoMo / Thẻ).</p>
+        <div id="admin-pay-forms"></div>
+        <button type="button" class="btn btn-primary btn-sm" id="btn-save-pay"><i class="fas fa-save"></i> Lưu 3 cách nạp</button>
+      </div>
+
+      <div class="admin-section">
+        <h2>Công cụ</h2>
+        <div class="admin-actions">
+          <button type="button" id="btn-reset-demo" class="danger">Xóa toàn bộ dữ liệu demo</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Modal service -->
+<div class="modal-bg" id="modal-svc">
+  <div class="modal">
+    <h3 id="modal-svc-title">Thêm dịch vụ</h3>
+    <div class="form-grid">
+      <div><label>Nền tảng</label>
+        <select id="ms-plat">
+          <option value="facebook">Facebook</option>
+          <option value="tiktok">TikTok</option>
+          <option value="instagram">Instagram</option>
+          <option value="youtube">YouTube</option>
+          <option value="telegram">Telegram</option>
+          <option value="spotify">Spotify</option>
+          <option value="threads">Threads</option>
+          <option value="x">X – Twitter</option>
+        </select>
+      </div>
+      <div><label>Nhóm</label><input type="text" id="ms-group" placeholder="Server Giá Rẻ"></div>
+      <div class="full"><label>Tên gói</label><input type="text" id="ms-name" placeholder="Sub VIP..."></div>
+      <div><label>Giá (đ/1)</label><input type="number" id="ms-price" value="15" min="1"></div>
+      <div><label>Bảo hành</label><input type="text" id="ms-bh" value="BH 30 Day"></div>
+      <div><label>Trạng thái</label>
+        <select id="ms-status"><option value="ok">Hoạt động</option><option value="off">Bảo trì</option></select>
+      </div>
+      <div><label>HOT</label>
+        <select id="ms-hot"><option value="0">Không</option><option value="1">Có</option></select>
+      </div>
+    </div>
+    <input type="hidden" id="ms-id">
+    <div class="modal-actions">
+      <button type="button" class="btn-mini" id="ms-cancel">Huỷ</button>
+      <button type="button" class="btn-mini ok" id="ms-save">Lưu</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal user -->
+<div class="modal-bg" id="modal-user">
+  <div class="modal">
+    <h3 id="modal-user-title">Thêm / Sửa user</h3>
+    <div class="form-grid">
+      <div><label>Tên</label><input type="text" id="mu-name"></div>
+      <div><label>Email</label><input type="email" id="mu-email"></div>
+      <div><label>Role</label>
+        <select id="mu-role"><option value="user">User</option><option value="admin">Admin</option></select>
+      </div>
+      <div><label>Số dư</label><input type="number" id="mu-bal" value="0" min="0"></div>
+      <div><label>Trạng thái</label>
+        <select id="mu-status"><option value="active">Hoạt động</option><option value="banned">Cấm</option></select>
+      </div>
+    </div>
+    <input type="hidden" id="mu-id">
+    <div class="modal-actions">
+      <button type="button" class="btn-mini" id="mu-cancel">Huỷ</button>
+      <button type="button" class="btn-mini ok" id="mu-save">Lưu</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span></span></div>
+<script src="script.js"></script>
+<script>
+(function(){
+  if (!window.HSV || !HSV.isLoggedIn()) { location.href='login.html'; return; }
+  const u = HSV.getUser();
+  if (!u || u.role !== 'admin') { location.href='dashboard.html'; return; }
+
+  const money = n => (Math.round(n)||0).toLocaleString('vi-VN')+'đ';
+  const load = (k,d) => { try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(d));}catch(e){return d} };
+  const save = (k,v) => localStorage.setItem(k, JSON.stringify(v));
+  const badge = s => {
+    const m={success:'Xong',pending:'Chờ',processing:'Chạy',rejected:'Từ chối',ok:'ON',off:'Bảo trì',active:'OK',banned:'CẤM'};
+    const cls = (s==='banned'||s==='rejected'||s==='off')?'pending':(s==='success'||s==='ok'||s==='active')?'success':'processing';
+    return `<span class="status-badge ${cls}">${m[s]||s}</span>`;
+  };
+
+  // Default services catalog (flat list for admin)
+  const DEFAULT_SERVICES = [
+    {id:'fb1',plat:'facebook',group:'Server Giá Rẻ',name:'Sub Cực VIP (Chạy bằng Link FB)',price:15,bh:'BH 30 Day',status:'ok',hot:true},
+    {id:'fb2',plat:'facebook',group:'Server Giá Rẻ',name:'Sub Sale – Hàng giá rẻ',price:8,bh:'BH 7 Day',status:'off',hot:false},
+    {id:'fb3',plat:'facebook',group:'Server Giá Rẻ',name:'Sub Siêu VIP (HOT)',price:20,bh:'BH 30 Day',status:'ok',hot:true},
+    {id:'fb4',plat:'facebook',group:'Server Giá Rẻ',name:'Like Fanpage chất lượng',price:12,bh:'BH 15 Day',status:'ok',hot:false},
+    {id:'fb5',plat:'facebook',group:'Server Giá Rẻ',name:'Like Bài viết / Reaction',price:6,bh:'BH 7 Day',status:'ok',hot:false},
+    {id:'fb6',plat:'facebook',group:'Server Tốc Độ',name:'Sub Via + Avatar đẹp 5k-10k/ngày',price:35,bh:'BH 30 Day',status:'ok',hot:true},
+    {id:'fb7',plat:'facebook',group:'Server Tốc Độ',name:'Sub Beta tốc độ cao 20k/ngày',price:45,bh:'BH 7 Day',status:'ok',hot:false},
+    {id:'tt1',plat:'tiktok',group:'Tăng Follow / Sub',name:'Followers TikTok ổn định',price:25,bh:'BH 30 Day',status:'ok',hot:true},
+    {id:'tt2',plat:'tiktok',group:'Views / Share',name:'Views Video siêu tốc',price:2,bh:'BH 7 Day',status:'ok',hot:true},
+    {id:'tt1b',plat:'tiktok',group:'Tăng Follow / Sub',name:'Followers TikTok VIP ít drop',price:38,bh:'BH 45 Day',status:'ok',hot:true},
+    {id:'tt3',plat:'tiktok',group:'Tăng Like',name:'Likes Video thường',price:12,bh:'BH 15 Day',status:'ok',hot:false},
+    {id:'tt3b',plat:'tiktok',group:'Tăng Like',name:'Likes Video VIP',price:18,bh:'BH 30 Day',status:'ok',hot:true},
+    {id:'tt3c',plat:'tiktok',group:'Tăng Like',name:'Likes siêu tốc',price:22,bh:'BH 7 Day',status:'ok',hot:true},
+    {id:'ig1',plat:'instagram',group:'Server Giá Rẻ',name:'Followers IG chất lượng',price:22,bh:'BH 30 Day',status:'ok',hot:true},
+    {id:'ig2',plat:'instagram',group:'Server Giá Rẻ',name:'Like bài viết / Reels',price:10,bh:'BH 15 Day',status:'ok',hot:false},
+    {id:'yt1',plat:'youtube',group:'Server Giá Rẻ',name:'Subscribers ổn định',price:70,bh:'BH 90 Day',status:'ok',hot:true},
+    {id:'yt2',plat:'youtube',group:'Server Giá Rẻ',name:'Views Video',price:5,bh:'BH 30 Day',status:'ok',hot:false},
+    {id:'tg1',plat:'telegram',group:'Server chuẩn',name:'Members Channel / Group',price:30,bh:'BH 30 Day',status:'ok',hot:true},
+    {id:'sp1',plat:'spotify',group:'Server chuẩn',name:'Followers',price:40,bh:'BH 30 Day',status:'ok',hot:false},
+    {id:'x1',plat:'x',group:'Server chuẩn',name:'Followers X/Twitter',price:32,bh:'BH 30 Day',status:'ok',hot:true},
+    {id:'th1',plat:'threads',group:'Server chuẩn',name:'Followers Threads',price:28,bh:'BH 30 Day',status:'ok',hot:true}
+  ];
+
+  function getServices(){
+    let s = load('hsv_services', null);
+    if (!s || !s.length) { s = DEFAULT_SERVICES; save('hsv_services', s); }
+    return s;
+  }
+  function getUsers(){
+    let list = load('hsv_users', null);
+    if (!list || !list.length) {
+      const cur = HSV.getUser() || {};
+      list = [{
+        id: 'u1', name: cur.name || 'Admin', email: 'HieuSubViP@Admin.com',
+        role: 'admin', balance: +(localStorage.getItem('hsv_balance')||0), status: 'active'
+      }];
+      save('hsv_users', list);
+    }
+    return list;
+  }
+
+  // Mobile menu
+  const side=document.getElementById('admin-sidebar');
+  const ov=document.getElementById('admin-overlay');
+  document.getElementById('admin-menu-btn').onclick=()=>{side.classList.add('open');ov.classList.add('show')};
+  ov.onclick=()=>{side.classList.remove('open');ov.classList.remove('show')};
+
+  const titles={overview:'Tổng quan',orders:'Đơn hàng',deposits:'Duyệt nạp tiền',services:'Dịch vụ',users:'Người dùng',settings:'Cài đặt web',announce:'Thông báo'};
+  function showPanel(name){
+    ['overview','orders','deposits','services','users','announce','settings'].forEach(p=>{
+      const el=document.getElementById('panel-'+p);
+      if(el) el.style.display = p===name?'block':'none';
+    });
+    document.querySelectorAll('.admin-nav a[data-panel]').forEach(a=>a.classList.toggle('active',a.dataset.panel===name));
+    document.getElementById('admin-title').textContent=titles[name]||'Admin';
+    side.classList.remove('open');ov.classList.remove('show');
+    if(name==='deposits') renderDeps();
+    if(name==='orders'||name==='overview') renderOrders();
+    if(name==='services') renderServices();
+    if(name==='users') renderUsers();
+    if(name==='announce') loadAnnForm();
+    if(name==='settings') try{renderPayAdmin();}catch(e){}
+  }
+  document.querySelectorAll('.admin-nav a[data-panel]').forEach(a=>{
+    a.addEventListener('click',e=>{e.preventDefault();showPanel(a.dataset.panel)});
+  });
+  document.getElementById('admin-logout').onclick=e=>{e.preventDefault();HSV.logout()};
+
+  function renderOrders(){
+    const orders=load('hsv_orders',[]);
+    document.getElementById('a-orders').textContent=orders.length;
+    document.getElementById('a-pending').textContent=orders.filter(o=>o.status==='pending').length;
+    document.getElementById('a-deps').textContent=load('hsv_deposits',[]).filter(d=>d.status==='pending').length;
+    document.getElementById('a-svc').textContent=getServices().length;
+
+    const act=(o,i)=>`<td class="admin-actions">
+      ${o.status==='pending'?`<button data-i="${i}" class="btn-ok">Duyệt</button><button data-i="${i}" class="danger btn-cancel">Huỷ</button>`:''}
+      ${o.status==='processing'?`<button data-i="${i}" class="btn-done">Xong</button>`:''}
+    </td>`;
+
+    document.getElementById('a-recent-orders').innerHTML = orders.slice(0,8).map((o,i)=>`<tr>
+      <td>${o.id}</td><td>${(o.service||'').slice(0,22)}</td><td>${(o.qty||0).toLocaleString('vi-VN')}</td>
+      <td>${money(o.amount)}</td><td>${badge(o.status)}</td>${act(o,i)}
+    </tr>`).join('') || '<tr><td colspan="6" class="empty-row">Chưa có đơn</td></tr>';
+
+    document.getElementById('a-all-orders').innerHTML = orders.map((o,i)=>`<tr>
+      <td>${o.id}</td><td>${o.platform||'-'}</td><td>${(o.service||'').slice(0,20)}</td>
+      <td>${(o.qty||0).toLocaleString('vi-VN')}</td><td>${money(o.amount)}</td>
+      <td>${badge(o.status)}</td><td>${o.date||''}</td>${act(o,i)}
+    </tr>`).join('') || '<tr><td colspan="8" class="empty-row">Chưa có đơn</td></tr>';
+
+    document.querySelectorAll('.btn-ok').forEach(b=>b.onclick=()=>{const l=load('hsv_orders',[]);l[+b.dataset.i].status='processing';save('hsv_orders',l);renderOrders();HSV.showToast('Đã duyệt')});
+    document.querySelectorAll('.btn-done').forEach(b=>b.onclick=()=>{const l=load('hsv_orders',[]);l[+b.dataset.i].status='success';save('hsv_orders',l);renderOrders();HSV.showToast('Hoàn thành')});
+    document.querySelectorAll('.btn-cancel').forEach(b=>b.onclick=()=>{const l=load('hsv_orders',[]);l[+b.dataset.i].status='rejected';save('hsv_orders',l);renderOrders();HSV.showToast('Đã huỷ')});
+  }
+
+  function renderDeps(){
+    const deps=load('hsv_deposits',[]);
+    const body=document.getElementById('a-deps-body');
+    body.innerHTML = deps.map((d,i)=>`<tr>
+      <td>${d.id}</td><td>${d.user||'-'}</td><td>${money(d.amount)}</td><td>${d.method||'-'}</td>
+      <td>${d.date||''}</td><td>${badge(d.status)}</td>
+      <td class="admin-actions">${d.status==='pending'
+        ?`<button data-i="${i}" class="btn-dep-ok">Duyệt</button><button data-i="${i}" class="danger btn-dep-no">Từ chối</button>`:'—'}</td>
+    </tr>`).join('') || '<tr><td colspan="7" class="empty-row">Chưa có lệnh nạp</td></tr>';
+
+    body.querySelectorAll('.btn-dep-ok').forEach(btn=>{
+      btn.onclick=()=>{
+        const list=load('hsv_deposits',[]); const d=list[+btn.dataset.i]; if(!d||d.status!=='pending')return;
+        d.status='success';
+        // credit matching user or global balance
+        const users=getUsers();
+        const target=users.find(x=>x.name===d.user) || users[0];
+        if(target){ target.balance=(target.balance||0)+(d.amount||0); save('hsv_users',users); }
+        localStorage.setItem('hsv_balance', String(+(localStorage.getItem('hsv_balance')||0)+(d.amount||0)));
+        localStorage.setItem('hsv_total_deposit', String(+(localStorage.getItem('hsv_total_deposit')||0)+(d.amount||0)));
+        save('hsv_deposits',list); renderDeps(); renderOrders(); HSV.showToast('Đã duyệt + cộng '+money(d.amount));
+      };
+    });
+    body.querySelectorAll('.btn-dep-no').forEach(btn=>{
+      btn.onclick=()=>{const list=load('hsv_deposits',[]);list[+btn.dataset.i].status='rejected';save('hsv_deposits',list);renderDeps();HSV.showToast('Từ chối')};
+    });
+  }
+
+  // SERVICES CRUD
+  function renderServices(){
+    const filter=document.getElementById('svc-filter').value;
+    let list=getServices();
+    if(filter!=='all') list=list.filter(s=>s.plat===filter);
+    document.getElementById('a-svc-body').innerHTML = list.map(s=>`<tr>
+      <td>${s.id}</td><td>${s.plat}</td><td>${s.group||'-'}</td>
+      <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis">${s.name}</td>
+      <td>${s.price}đ</td><td>${s.bh||'-'}</td><td>${badge(s.status)}</td>
+      <td class="admin-actions">
+        <button data-id="${s.id}" class="btn-edit-svc">Sửa</button>
+        <button data-id="${s.id}" class="danger btn-del-svc">Xóa</button>
+        <button data-id="${s.id}" class="btn-toggle-svc">${s.status==='ok'?'Tắt':'Bật'}</button>
+      </td>
+    </tr>`).join('') || '<tr><td colspan="8" class="empty-row">Chưa có dịch vụ</td></tr>';
+
+    document.querySelectorAll('.btn-edit-svc').forEach(b=>b.onclick=()=>openSvcModal(b.dataset.id));
+    document.querySelectorAll('.btn-del-svc').forEach(b=>b.onclick=()=>{
+      if(!confirm('Xóa dịch vụ này?')) return;
+      save('hsv_services', getServices().filter(s=>s.id!==b.dataset.id));
+      renderServices(); renderOrders(); HSV.showToast('Đã xóa');
+    });
+    document.querySelectorAll('.btn-toggle-svc').forEach(b=>b.onclick=()=>{
+      const list=getServices();
+      const s=list.find(x=>x.id===b.dataset.id);
+      if(s){ s.status=s.status==='ok'?'off':'ok'; save('hsv_services',list); renderServices(); HSV.showToast('Đã cập nhật trạng thái'); }
+    });
+  }
+  document.getElementById('svc-filter').onchange=renderServices;
+
+  function openSvcModal(id){
+    const modal=document.getElementById('modal-svc');
+    document.getElementById('modal-svc-title').textContent=id?'Sửa dịch vụ':'Thêm dịch vụ';
+    if(id){
+      const s=getServices().find(x=>x.id===id);
+      if(!s) return;
+      document.getElementById('ms-id').value=s.id;
+      document.getElementById('ms-plat').value=s.plat;
+      document.getElementById('ms-group').value=s.group||'';
+      document.getElementById('ms-name').value=s.name||'';
+      document.getElementById('ms-price').value=s.price||0;
+      document.getElementById('ms-bh').value=s.bh||'';
+      document.getElementById('ms-status').value=s.status||'ok';
+      document.getElementById('ms-hot').value=s.hot?'1':'0';
+    } else {
+      document.getElementById('ms-id').value='';
+      document.getElementById('ms-name').value='';
+      document.getElementById('ms-price').value=15;
+      document.getElementById('ms-group').value='Server Giá Rẻ';
+      document.getElementById('ms-bh').value='BH 30 Day';
+      document.getElementById('ms-status').value='ok';
+      document.getElementById('ms-hot').value='0';
+    }
+    modal.classList.add('show');
+  }
+  document.getElementById('btn-add-svc').onclick=()=>openSvcModal(null);
+  document.getElementById('ms-cancel').onclick=()=>document.getElementById('modal-svc').classList.remove('show');
+  document.getElementById('ms-save').onclick=()=>{
+    const id=document.getElementById('ms-id').value;
+    const item={
+      id: id || ('sv'+Date.now().toString(36)),
+      plat: document.getElementById('ms-plat').value,
+      group: document.getElementById('ms-group').value.trim()||'Server',
+      name: document.getElementById('ms-name').value.trim(),
+      price: +document.getElementById('ms-price').value||0,
+      bh: document.getElementById('ms-bh').value.trim(),
+      status: document.getElementById('ms-status').value,
+      hot: document.getElementById('ms-hot').value==='1'
+    };
+    if(!item.name){ HSV.showToast('Nhập tên gói',true); return; }
+    let list=getServices();
+    if(id){ list=list.map(s=>s.id===id?item:s); }
+    else list.push(item);
+    save('hsv_services', list);
+    document.getElementById('modal-svc').classList.remove('show');
+    renderServices(); renderOrders(); HSV.showToast('Đã lưu dịch vụ');
+  };
+
+  // USERS + BAN
+  function renderUsers(){
+    const users=getUsers();
+    document.getElementById('a-users-body').innerHTML = users.map(u=>`<tr>
+      <td>${u.name}</td><td>${u.email||'-'}</td><td>${u.role}</td><td>${money(u.balance||0)}</td>
+      <td>${badge(u.status||'active')}</td>
+      <td class="admin-actions">
+        <button data-id="${u.id}" class="btn-edit-user">Sửa</button>
+        ${u.status==='banned'
+          ? `<button data-id="${u.id}" class="ok btn-unban">Mở</button>`
+          : `<button data-id="${u.id}" class="danger btn-ban">Cấm</button>`}
+        <button data-id="${u.id}" class="danger btn-del-user">Xóa</button>
+      </td>
+    </tr>`).join('') || '<tr><td colspan="6" class="empty-row">Chưa có user</td></tr>';
+
+    document.querySelectorAll('.btn-edit-user').forEach(b=>b.onclick=()=>openUserModal(b.dataset.id));
+    document.querySelectorAll('.btn-ban').forEach(b=>b.onclick=()=>{
+      const list=getUsers(); const u=list.find(x=>x.id===b.dataset.id);
+      if(u){ u.status='banned'; save('hsv_users',list); renderUsers(); HSV.showToast('Đã cấm tài khoản'); }
+    });
+    document.querySelectorAll('.btn-unban').forEach(b=>b.onclick=()=>{
+      const list=getUsers(); const u=list.find(x=>x.id===b.dataset.id);
+      if(u){ u.status='active'; save('hsv_users',list); renderUsers(); HSV.showToast('Đã mở khóa'); }
+    });
+    document.querySelectorAll('.btn-del-user').forEach(b=>b.onclick=()=>{
+      if(!confirm('Xóa user?')) return;
+      save('hsv_users', getUsers().filter(x=>x.id!==b.dataset.id));
+      renderUsers(); HSV.showToast('Đã xóa');
+    });
+  }
+  function openUserModal(id){
+    const modal=document.getElementById('modal-user');
+    document.getElementById('modal-user-title').textContent=id?'Sửa user':'Thêm user';
+    if(id){
+      const u=getUsers().find(x=>x.id===id); if(!u) return;
+      document.getElementById('mu-id').value=u.id;
+      document.getElementById('mu-name').value=u.name||'';
+      document.getElementById('mu-email').value=u.email||'';
+      document.getElementById('mu-role').value=u.role||'user';
+      document.getElementById('mu-bal').value=u.balance||0;
+      document.getElementById('mu-status').value=u.status||'active';
+    } else {
+      document.getElementById('mu-id').value='';
+      document.getElementById('mu-name').value='';
+      document.getElementById('mu-email').value='';
+      document.getElementById('mu-role').value='user';
+      document.getElementById('mu-bal').value=0;
+      document.getElementById('mu-status').value='active';
+    }
+    modal.classList.add('show');
+  }
+  document.getElementById('btn-add-user').onclick=()=>openUserModal(null);
+  document.getElementById('mu-cancel').onclick=()=>document.getElementById('modal-user').classList.remove('show');
+  document.getElementById('mu-save').onclick=()=>{
+    const id=document.getElementById('mu-id').value;
+    const item={
+      id: id || ('u'+Date.now().toString(36)),
+      name: document.getElementById('mu-name').value.trim(),
+      email: document.getElementById('mu-email').value.trim(),
+      role: document.getElementById('mu-role').value,
+      balance: +document.getElementById('mu-bal').value||0,
+      status: document.getElementById('mu-status').value
+    };
+    if(!item.name){ HSV.showToast('Nhập tên',true); return; }
+    let list=getUsers();
+    if(id) list=list.map(x=>x.id===id?item:x);
+    else list.push(item);
+    save('hsv_users', list);
+    // sync current balance if editing current session user
+    const cur=HSV.getUser();
+    if(cur && (cur.name===item.name || item.role==='admin')) {
+      localStorage.setItem('hsv_balance', String(item.balance));
+    }
+    document.getElementById('modal-user').classList.remove('show');
+    renderUsers(); HSV.showToast('Đã lưu user');
+  };
+
+  // Settings
+  const bank=Object.assign({stk:'0123456789990',owner:'TRAN BA HIEU',bank:'MB Bank',content:'NAP HSV'}, load('hsv_bank',{}));
+  document.getElementById('set-stk').value=bank.stk;
+  document.getElementById('set-owner').value=bank.owner;
+  document.getElementById('set-bank').value=bank.bank;
+  document.getElementById('set-content').value=bank.content;
+  document.getElementById('btn-save-bank').onclick=()=>{
+    save('hsv_bank',{
+      stk:document.getElementById('set-stk').value.trim(),
+      owner:document.getElementById('set-owner').value.trim(),
+      bank:document.getElementById('set-bank').value.trim(),
+      content:document.getElementById('set-content').value.trim()
+    });
+    HSV.showToast('Đã lưu');
+  };
+  document.getElementById('btn-reset-demo').onclick=()=>{
+    if(!confirm('Xóa orders, deposits, services cache?')) return;
+    ['hsv_orders','hsv_deposits','hsv_services'].forEach(k=>localStorage.removeItem(k));
+    HSV.showToast('Đã xóa dữ liệu demo');
+    renderOrders();
+  };
+
+
+  const DEFAULT_ANN_LINES = [
+    'Sau khi chuyển khoản nạp tiền, vui lòng chờ Admin duyệt — số dư mới được cộng.',
+    'Khi đặt hàng hãy chọn đúng gói (Like / Sub / View…) và dán đúng link.',
+    'Nạp tích lũy để lên cấp Cộng tác viên / Đại lý / Nhà phân phối và nhận giảm giá.',
+    'Mọi thắc mắc liên hệ Zalo, Telegram hoặc Facebook trong mục Hỗ trợ.'
+  ];
+  function buildAnnHtml(title, lines, footer) {
+    const lis = lines.filter(Boolean).map(l => '<li>' + l.replace(/</g,'&lt;') + '</li>').join('');
+    return '<p><strong>' + (title||'Thông báo').replace(/</g,'&lt;') + '</strong></p><ul>' + lis + '</ul><p class="ann-date">' + (footer||'').replace(/</g,'&lt;') + '</p>';
+  }
+  function loadAnnForm() {
+    const ann = load('hsv_announcement', null) || {};
+    document.getElementById('ann-enabled').value = ann.enabled === false ? '0' : '1';
+    document.getElementById('ann-title').value = ann.title || 'Thông báo từ HieuSubViP';
+    document.getElementById('ann-lines').value = (ann.lines || DEFAULT_ANN_LINES).join('\n');
+    document.getElementById('ann-footer').value = ann.footer || 'Cập nhật gần nhất';
+  }
+  document.getElementById('btn-save-ann').onclick = () => {
+    const title = document.getElementById('ann-title').value.trim();
+    const lines = document.getElementById('ann-lines').value.split('\n').map(s=>s.trim()).filter(Boolean);
+    const footer = document.getElementById('ann-footer').value.trim();
+    const enabled = document.getElementById('ann-enabled').value === '1';
+    const html = buildAnnHtml(title, lines, footer);
+    save('hsv_announcement', { title, lines, footer, enabled, html });
+    // reset "don't show today" so users see new content
+    Object.keys(localStorage).forEach(k => { if (k.startsWith('hsv_ann_')) localStorage.removeItem(k); });
+    HSV.showToast('Đã lưu thông báo');
+  };
+  document.getElementById('btn-preview-ann').onclick = () => {
+    const title = document.getElementById('ann-title').value.trim();
+    const lines = document.getElementById('ann-lines').value.split('\n').map(s=>s.trim()).filter(Boolean);
+    const footer = document.getElementById('ann-footer').value.trim();
+    const pre = document.getElementById('ann-preview');
+    pre.style.display = 'block';
+    pre.textContent = buildAnnHtml(title, lines, footer);
+  };
+
+  renderOrders();
+})();
+
+  // ===== Admin: 3 pay methods =====
+  function defaultPayMethodsAdmin() {
+    return [
+      { id:'bank', name:'Chuyển khoản ngân hàng', icon:'fa-university', enabled:true, bank:'MB Bank', stk:'0123456789990', owner:'TRAN BA HIEU', note:'NAP HSV' },
+      { id:'momo', name:'Ví MoMo', icon:'fa-mobile-alt', enabled:true, phone:'0964836058', owner:'TRAN BA HIEU', note:'NAP HSV' },
+      { id:'card', name:'Thẻ cào / cổng khác', icon:'fa-credit-card', enabled:true, info:'Liên hệ Admin để nạp bằng thẻ cào.', note:'IB Admin' }
+    ];
+  }
+  function loadPayMethods() {
+    let m = load('hsv_pay_methods', null);
+    if (!m || !m.length) { m = defaultPayMethodsAdmin(); save('hsv_pay_methods', m); }
+    return m;
+  }
+  function renderPayAdmin() {
+    const box = document.getElementById('admin-pay-forms');
+    if (!box) return;
+    const methods = loadPayMethods();
+    box.innerHTML = methods.map((m,i) => `
+      <div class="panel" style="margin-bottom:10px;padding:12px;border:1px solid var(--bd);border-radius:12px">
+        <h4 style="margin:0 0 10px">${m.name} <small style="color:var(--m)">(${m.id})</small></h4>
+        <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:.85rem">
+          <input type="checkbox" data-pay-en="${i}" ${m.enabled!==false?'checked':''}> Bật cách nạp này
+        </label>
+        <div class="form-group"><label>Tên hiển thị</label><input type="text" data-pay-name="${i}" value="${(m.name||'').replace(/"/g,'&quot;')}"></div>
+        ${m.id==='bank' || m.stk!==undefined ? `
+          <div class="form-group"><label>Ngân hàng</label><input type="text" data-pay-bank="${i}" value="${m.bank||''}"></div>
+          <div class="form-group"><label>Số TK</label><input type="text" data-pay-stk="${i}" value="${m.stk||''}"></div>
+          <div class="form-group"><label>Chủ TK</label><input type="text" data-pay-owner="${i}" value="${m.owner||''}"></div>
+        ` : ''}
+        ${m.id==='momo' || (m.phone!==undefined && m.id!=='bank') ? `
+          <div class="form-group"><label>SĐT MoMo</label><input type="text" data-pay-phone="${i}" value="${m.phone||''}"></div>
+          <div class="form-group"><label>Chủ ví</label><input type="text" data-pay-owner="${i}" value="${m.owner||''}"></div>
+        ` : ''}
+        ${m.id==='card' ? `
+          <div class="form-group"><label>Hướng dẫn</label><input type="text" data-pay-info="${i}" value="${(m.info||'').replace(/"/g,'&quot;')}"></div>
+        ` : ''}
+        <div class="form-group"><label>Ghi chú / nội dung CK</label><input type="text" data-pay-note="${i}" value="${(m.note||'').replace(/"/g,'&quot;')}"></div>
+      </div>
+    `).join('');
+  }
+  document.getElementById('btn-save-pay')?.addEventListener('click', () => {
+    const methods = loadPayMethods();
+    methods.forEach((m,i) => {
+      const en = document.querySelector(`[data-pay-en="${i}"]`);
+      const name = document.querySelector(`[data-pay-name="${i}"]`);
+      if (en) m.enabled = en.checked;
+      if (name) m.name = name.value.trim() || m.name;
+      const bank = document.querySelector(`[data-pay-bank="${i}"]`);
+      const stk = document.querySelector(`[data-pay-stk="${i}"]`);
+      const owner = document.querySelector(`[data-pay-owner="${i}"]`);
+      const phone = document.querySelector(`[data-pay-phone="${i}"]`);
+      const info = document.querySelector(`[data-pay-info="${i}"]`);
+      const note = document.querySelector(`[data-pay-note="${i}"]`);
+      if (bank) m.bank = bank.value.trim();
+      if (stk) m.stk = stk.value.trim();
+      if (owner) m.owner = owner.value.trim();
+      if (phone) m.phone = phone.value.trim();
+      if (info) m.info = info.value.trim();
+      if (note) m.note = note.value.trim();
+    });
+    save('hsv_pay_methods', methods);
+    HSV.showToast('Đã lưu 3 cách nạp');
+  });
+  // hook show panel settings
+  const _showPanel = typeof showPanel === 'function' ? showPanel : null;
+
+  renderPayAdmin();
+</script>
+</body>
+</html>

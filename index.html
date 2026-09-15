@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>HieuSubViP</title>
+    <meta name="description" content="HieuSubViP - Tăng Like, Sub, Follow Facebook, Instagram, TikTok, YouTube. VIP uy tín.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="stylesheet" href="styles.css">
+
+<meta name="apple-mobile-web-app-title" content="HieuSubViP">
+    <meta name="application-name" content="HieuSubViP">
+    <meta name="theme-color" content="#0a0e28">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body>
+    <canvas id="particles"></canvas>
+
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon"><img src="logo-64.png" alt="HieuSubViP" width="40" height="40"></span>
+                <span class="logo-run">HieuSubViP</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home">Trang chủ</a></li>
+                <li><a href="#services">Dịch vụ</a></li>
+                <li><a href="#features">Ưu điểm</a></li>
+                <li><a href="#testimonials">Đánh giá</a></li>
+                <li><a href="#contact">Liên hệ</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="login.html" class="btn btn-ghost" id="btn-login">Đăng nhập</a>
+                <a href="register.html" class="btn btn-nav" id="btn-register">Đăng ký</a>
+                <button class="user-menu-btn" id="user-menu-btn" type="button">
+                    <span class="avatar" id="user-avatar">H</span>
+                    <span id="user-name-short">User</span>
+                </button>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+    <div class="nav-drawer" id="nav-drawer">
+        <div class="drawer-user" id="drawer-user" style="display:none">
+            <div class="av" id="drawer-av">H</div>
+            <div><strong id="drawer-name">User</strong><span style="color:var(--d);font-size:.75rem;display:block">Thành viên</span></div>
+        </div>
+        <a href="#home" class="drawer-link"><i class="fas fa-home"></i> Trang chủ</a>
+        <a href="#services" class="drawer-link"><i class="fas fa-th-large"></i> Dịch vụ</a>
+        <a href="#features" class="drawer-link"><i class="fas fa-star"></i> Ưu điểm</a>
+        <a href="#testimonials" class="drawer-link"><i class="fas fa-comments"></i> Đánh giá</a>
+        <a href="#contact" class="drawer-link"><i class="fas fa-headset"></i> Liên hệ</a>
+        <div class="drawer-divider"></div>
+        <div id="drawer-guest">
+            <a href="login.html"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a>
+            <a href="register.html"><i class="fas fa-user-plus"></i> Đăng ký</a>
+        </div>
+        <div id="drawer-auth" style="display:none">
+            <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a href="dashboard.html#order"><i class="fas fa-shopping-cart"></i> Đặt hàng</a>
+            <a href="admin.html" id="drawer-admin-link" style="display:none"><i class="fas fa-user-shield"></i> Admin</a>
+            <a href="#" id="btn-logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+        </div>
+    </div>
+
+    <!-- HERO: Banner to + nội dung gọn -->
+    <section class="hero hero-v2" id="home">
+        <div class="container hero-balance">
+            <div class="hero-intro">
+                <div class="hero-badge">HieuSubViP</div>
+                <h1 class="hero-title hero-run"><span class="run-text">✧ ♛ HIEUSUBVIP ♛ ✧</span></h1>
+                <p class="hero-sub">Like · Sub · View · Follow — Facebook, TikTok, Instagram, YouTube…</p>
+                <div class="hero-cta">
+                    <a href="login.html" class="btn btn-primary order-gate liquid-metal"><i class="fas fa-bolt"></i> Đặt hàng ngay</a>
+                    <a href="#services" class="btn btn-ghost">Xem dịch vụ</a>
+                </div>
+            </div>
+            <div class="banner-hero">
+                <div class="banner-glow"></div>
+                <div class="banner-frame">
+                    <video class="shop-banner-lg banner-video" id="banner-video"
+                        autoplay muted loop playsinline webkit-playsinline preload="auto"
+                        poster="banner-poster.jpg"
+                        style="background:#0a0a12">
+                        <source src="banner.mp4" type="video/mp4">
+                    </video>
+                    <img class="banner-poster-fallback" src="banner-poster.jpg" alt="HieuSubViP" width="720" height="405" style="display:none;width:100%;height:auto;border-radius:inherit">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Dịch vụ</span>
+                <h2 class="section-title">Chúng tôi cung cấp</h2>
+                <p class="section-desc">Đăng nhập để đặt Like, Sub, Follow chất lượng cao</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon service-icon-3d facebook"><i class="fab fa-facebook-f"></i></div>
+                    <h3>Facebook</h3>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Like Fanpage / Bài viết</li>
+                        <li><i class="fas fa-check"></i> Follow Profile</li>
+                        <li><i class="fas fa-check"></i> Share &amp; Comment</li>
+                    </ul>
+                    <a href="login.html" class="service-link order-gate">Đặt hàng <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon service-icon-3d instagram"><i class="fab fa-instagram"></i></div>
+                    <h3>Instagram</h3>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Followers chất lượng</li>
+                        <li><i class="fas fa-check"></i> Like &amp; Views Reels</li>
+                        <li><i class="fas fa-check"></i> Comment &amp; Save</li>
+                    </ul>
+                    <a href="login.html" class="service-link order-gate">Đặt hàng <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon service-icon-3d tiktok"><i class="fab fa-tiktok"></i></div>
+                    <h3>TikTok</h3>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Followers thật</li>
+                        <li><i class="fas fa-check"></i> Views Video</li>
+                        <li><i class="fas fa-check"></i> Likes &amp; Shares</li>
+                    </ul>
+                    <a href="login.html" class="service-link order-gate">Đặt hàng <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon service-icon-3d youtube"><i class="fab fa-youtube"></i></div>
+                    <h3>YouTube</h3>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Subscribers</li>
+                        <li><i class="fas fa-check"></i> Views &amp; Likes</li>
+                        <li><i class="fas fa-check"></i> Watch Hours</li>
+                    </ul>
+                    <a href="login.html" class="service-link order-gate">Đặt hàng <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="services-cta">
+                <p>Đăng nhập để xem giá và đặt hàng trong Dashboard</p>
+                <a href="login.html" class="btn btn-primary liquid-metal" id="services-cta-login"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a>
+                <a href="dashboard.html#order" class="btn btn-primary liquid-metal" id="services-cta-order" style="display:none"><i class="fas fa-shopping-cart"></i> Đặt hàng</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Ưu điểm</span>
+                <h2 class="section-title">Vì sao chọn chúng tôi?</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>An toàn</h3>
+                    <p>Không cần mật khẩu. An toàn tuyệt đối.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-rocket"></i></div>
+                    <h3>Siêu tốc</h3>
+                    <p>Giao hàng nhanh ngay sau thanh toán.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-headset"></i></div>
+                    <h3>Hỗ trợ 24/7</h3>
+                    <p>Zalo, Telegram, Facebook luôn online.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-award"></i></div>
+                    <h3>Uy tín VIP</h3>
+                    <p>Bảo hành dài, cam kết chất lượng.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Đánh giá</span>
+                <h2 class="section-title">Khách hàng nói gì?</h2>
+            </div>
+                        <div class="testimonials-slider">
+                <div class="testimonial-card">
+                    <div class="client" style="margin-bottom:12px">
+                        <img class="client-avatar-img" src="avatars/st.png" alt="Sơn Tùng MTP" width="52" height="52">
+                        <div class="client-info"><strong>Sơn Tùng MTP</strong><span>Nghệ sĩ / Creator</span></div>
+                    </div>
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p>"Dịch vụ uy tín, tương tác về đều và ổn định. Recommend!"</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="client" style="margin-bottom:12px">
+                        <img class="client-avatar-img" src="avatars/mono.png" alt="MoNo" width="52" height="52">
+                        <div class="client-info"><strong>MoNo</strong><span>Content Creator</span></div>
+                    </div>
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p>"Sub và like chạy mượt, hỗ trợ nhiệt tình. Sẽ ủng hộ dài dài."</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="client" style="margin-bottom:12px">
+                        <img class="client-avatar-img" src="avatars/hth.png" alt="HIEUTHUHAI" width="52" height="52">
+                        <div class="client-info"><strong>HIEUTHUHAI</strong><span>Rapper / Creator</span></div>
+                    </div>
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p>"Buff view TikTok nhanh, kênh tăng reach rõ. Rất hài lòng."</p>
+                </div>
+            </div>
+            </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Liên hệ</span>
+                <h2 class="section-title">Kết nối ngay</h2>
+            </div>
+            <div class="contact-grid-only">
+                <a href="https://zalo.me/0964836058" target="_blank" class="contact-item big">
+                    <i class="fas fa-comment-dots"></i>
+                    <div><strong>Zalo</strong><span>Chat đặt hàng</span></div>
+                </a>
+                <a href="https://t.me/HjeuDepZaii63" target="_blank" class="contact-item big">
+                    <i class="fab fa-telegram"></i>
+                    <div><strong>Telegram</strong><span>@HieuSubViP</span></div>
+                </a>
+                
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-simple">
+                <a href="index.html" class="logo">
+                    <span class="logo-icon"><img src="logo-64.png" alt="HieuSubViP" width="40" height="40"></span>
+                    <span class="logo-run">HieuSubViP</span>
+                </a>
+                <p>Tăng tương tác – Xây dựng cộng đồng – VIP uy tín</p>
+                <p class="copy">&copy; 2026 <strong class="brand-bold">𝗛𝗶𝗲𝘂𝗦𝘂𝗯𝗩𝗶𝗣</strong></p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span></span></div>
+    <script src="script.js"></script>
+
+<!-- Feedback widget -->
+<button type="button" class="fb-fab" id="fb-fab" aria-label="Góp ý"><i class="fas fa-comment-dots"></i></button>
+<div class="fb-panel" id="fb-panel" role="dialog" aria-label="Đánh giá">
+  <h3>Đánh giá HieuSubViP</h3>
+  <p>Chia sẻ trải nghiệm của bạn (lưu trên thiết bị).</p>
+  <div class="fb-stars" id="fb-stars">
+    <button type="button" data-s="1">★</button>
+    <button type="button" data-s="2">★</button>
+    <button type="button" data-s="3">★</button>
+    <button type="button" data-s="4">★</button>
+    <button type="button" data-s="5">★</button>
+  </div>
+  <textarea id="fb-text" placeholder="Nhận xét của bạn..." maxlength="500"></textarea>
+  <div class="fb-actions">
+    <button type="button" class="btn btn-ghost" id="fb-close">Đóng</button>
+    <button type="button" class="btn btn-primary liquid-metal" id="fb-send">Gửi</button>
+  </div>
+</div>
+
+</body>
+</html>
